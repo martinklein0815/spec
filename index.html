@@ -568,8 +568,10 @@
 </pre>            
 
             <h3>
-                <a name="resource_memory_discovery" id="resource_memory_discovery"></a>Resource Memory Discovery (via Memento)
+                <a name="resource_memory_discovery_memento" id="resource_memory_discovery_memento"></a>Resource Memory Discovery (via Memento)
             </h3>
+            
+            <p>Access to (previous) resource versions can be provided by Memento.</p>
             
 <pre>            
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
@@ -598,6 +600,38 @@
 
 &lt;/urlset&gt;
 </pre>
+            
+            <h3>
+                <a name="resource_memory_discovery_versioning" id="resource_memory_discovery_versioning"></a>Resource Memory Discovery (via Resource version URIs)
+            </h3>
+            
+            <p>Access to (previous) resource versions can be provided by the source itself (e.g., as in Wikipedia).</p>
+<pre>
+&lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
+        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;&gt;
+
+    &lt;url&gt;
+       &lt;loc&gt;http://www.example.com/res1&lt;/loc&gt;
+       &lt;lastmod&gt;2005-01-01&lt;/lastmod&gt;
+       &lt;rs:tag&gt;frogs&lt;/rs:tag&gt;      
+       &lt;rs:tag&gt;crocodiles&lt;/rs:tag&gt;
+       &lt;atom:link href=&quot;http://example.com/timegate/http://www.example.com/5/res1&quot; rel=&quot;self&quot;/&gt;
+    &lt;/url&gt;
+    &lt;url&gt;
+       &lt;loc&gt;http://www.example.com/res2&lt;/loc&gt;
+       &lt;lastmod&gt;2006-02-21T18:00:15+00:00&lt;/lastmod&gt;
+       &lt;rs:tag&gt;fish&lt;/rs:tag&gt;
+       &lt;atom:link href=&quot;http://example.com/timegate/http://www.example.com/10/res2&quot; rel=&quot;self&quot;/&gt;
+    &lt;/url&gt;
+    &lt;url&gt;
+       &lt;loc&gt;http://www.example.com/res3&lt;/loc&gt;
+       &lt;lastmod&gt;2007-03-23T18:00:15+00:00&lt;/lastmod&gt;
+       &lt;rs:tag&gt;humans&lt;/rs:tag&gt;
+       &lt;atom:link href=&quot;http://example.com/timegate/http://www.example.com/3/res3&quot; rel=&quot;self&quot;/&gt;
+    &lt;/url&gt;   
+
+&lt;/urlset&gt;
+</pre>            
             
             <p class="date rs">
                 Last Updated: $Date: 2012-03-08 16:52:10 $
