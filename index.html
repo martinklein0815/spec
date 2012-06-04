@@ -491,7 +491,7 @@
 </pre>            
 
             <h3>
-                <a name="change_comm_discovery" id="change_comm_discovery"></a>Change Communication Discovery (PULL)
+                <a name="change_comm_discovery_pull" id="change_comm_discovery_pull"></a>Change Communication Discovery (PULL)
             </h3>
 
             <p>Pull-based change communication means that the client (destination) dereferences a URI and receives a serialized set of change events, called changeset. <span class="rs">TODO: point to Changeset definition</span></p>
@@ -500,8 +500,8 @@
 
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
-        xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
+    xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+    xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 
 <span class="rs">   &lt;!-- Static changeset file --&gt;
    &lt;atom:link href=&quot;http://example.com/changes/changeset.xml&quot; rel=&quot;rs:changeset&quot;/&gt;</span>
@@ -515,8 +515,8 @@
 
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
-        xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
+    xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+    xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 
 <span class="rs">   &lt;!-- Dynamically generated changeset  --&gt;
    &lt;atom:link href=&quot;http://example.com/changes/20/diff&quot; rel=&quot;rs:changeset&quot;/&gt;</span>
@@ -524,6 +524,77 @@
    &lt;url&gt;...&lt;/url&gt;
 
    &lt;url&gt;...&lt;/url&gt;
+
+&lt;/urlset&gt;
+</pre>
+
+            <h3>
+                <a name="change_comm_discovery_push" id="change_comm_discovery_push"></a>Change Communication Discovery (PUSH)
+            </h3>
+
+            <p>Push-based change communication means that the client (destination) receives messages containing serialized change events (changeset). <span class="rs">TODO: point to Changeset definition</span></p>
+            
+
+<pre>
+&lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
+    xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+    xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
+
+<span class="rs">   &lt;!-- The used change notification transport protocol --&gt; 
+    &lt;atom:link href=&quot;xmpp:pubsub.example.org/&quot; rel=&quot;rs:notification&quot; rs:profile=&quot;&lt;spec-uri&gt;&quot; rs:pubsubnode=&quot;All&quot;/&gt;</span>
+
+    &lt;url&gt;...&lt;/url&gt;
+
+    &lt;url&gt;...&lt;/url&gt;
+
+&lt;/urlset&gt;
+</pre>
+
+<pre>
+&lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
+    xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+    xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
+
+<span class="rs">   &lt;!-- The used change notification transport protocol --&gt; 
+   &lt;atom:link href=&quot;xmpp:pubsub.example.org/&quot; rel=&quot;rs:notification&quot; rs:profile=&quot;&lt;spec-uri&gt;&quot; rs:pubsubnode=&quot;All&quot;/&gt;
+   &lt;!-- The change memory for pulling changes --&gt;
+   &lt;atom:link href=&quot;http://example.com/changes/changeset.xml&quot; rel=&quot;rs:changeset&quot;/&gt;</span>
+
+   &lt;url&gt;...&lt;/url&gt;
+
+   &lt;url&gt;...&lt;/url&gt;
+
+&lt;/urlset&gt;
+</pre>            
+
+            <h3>
+                <a name="resource_memory_discovery" id="resource_memory_discovery"></a>Resource Memory Discovery (via Memento)
+            </h3>
+            
+<pre>            
+&lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
+    xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+    xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
+
+    &lt;url&gt;
+       &lt;loc&gt;http://www.example.com/res1&lt;/loc&gt;
+       &lt;lastmod&gt;2005-01-01&lt;/lastmod&gt;
+       &lt;rs:tag&gt;frogs&lt;/rs:tag&gt;      
+       &lt;rs:tag&gt;crocodiles&lt;/rs:tag&gt;
+<span class="rs">       &lt;atom:link href=&quot;http://example.com/timegate/http://www.example.com/res1&quot; rel=&quot;timegate&quot;/&gt;</span>
+    &lt;/url&gt;
+    &lt;url&gt;
+       &lt;loc&gt;http://www.example.com/res2&lt;/loc&gt;
+       &lt;lastmod&gt;2006-02-21T18:00:15+00:00&lt;/lastmod&gt;
+       &lt;rs:tag&gt;fish&lt;/rs:tag&gt;
+<span class="rs">       &lt;atom:link href=&quot;http://example.com/timegate/http://www.example.com/res2&quot; rel=&quot;timegate&quot;/&gt;</span>
+    &lt;/url&gt;
+    &lt;url&gt;
+       &lt;loc&gt;http://www.example.com/res3&lt;/loc&gt;
+       &lt;lastmod&gt;2007-03-23T18:00:15+00:00&lt;/lastmod&gt;
+       &lt;rs:tag&gt;humans&lt;/rs:tag&gt;
+<span class="rs">       &lt;atom:link href=&quot;http://example.com/timegate/http://www.example.com/res3&quot; rel=&quot;timegate&quot;/&gt;</span>
+    &lt;/url&gt;   
 
 &lt;/urlset&gt;
 </pre>
