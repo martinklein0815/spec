@@ -1,0 +1,460 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <title>
+            ResourceSync Protocol Specification
+        </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="resync.css" media="screen, projection" />
+        <meta name="robots" content="all" />
+    </head>
+    <body>
+        <p>
+            <a name="top" id="top"></a>
+        </p>
+        <div id="mainContent">
+            <h1>
+                <a name="resync_protocol" id="resync_protocol"></a>ResourceSync Protocol Specification
+            </h1>
+            <!-- TOC -->
+            <blockquote>
+                <b>Jump to:</b><br />
+                <a href="#sitemap_inventory">Sitemap Inventory</a><br />
+                <a href="#sitemap_index_inventory">Sitemap Index Inventory</a><br />
+            </blockquote>
+            
+            <!-- Intro -->
+            <p>
+                This document describes the XML Schemas for possible components of a resource synchronization framework.
+            </p>
+            <p>
+                <span class="rs">TODO: briefly introduce components; provide definitions</span>
+            </p>
+
+
+            <!-- INVENTORY -->
+            <h2>
+                <a name="sitemap_inventory" id="sitemap_inventory"></a>Sitemap Inventory
+            </h2>
+            <p>ResourceSync relies on Sitemaps to describe the <em>list of resources</em> (= the INVENTORY) contained in a source.</p>
+            <p>
+                The Sitemap protocol format consists of XML tags. All data values in a Sitemap must be <a href="http://www.sitemaps.org/protocol.html#escaping">entity-escaped</a>. The file itself must be UTF-8 encoded.
+            </p>
+            <p>
+                The Sitemap must:
+            </p>
+            <ul>
+                <li>Begin with an opening <code>&lt;<a href="#urlsetdef">urlset</a>&gt;</code> tag and end with a closing <code>&lt;/urlset&gt;</code> tag.
+                </li>
+                <li>Specify the namespace (protocol standard) within the <code>&lt;urlset&gt;</code> tag.
+                </li>
+                <li>Include a <code>&lt;<a href="#urldef">url</a>&gt;</code> entry for each URL <span class="rs">(resource)</span>, as a parent XML tag.    </li>
+                <li>Include a <code>&lt;<a href="#locdef">loc</a>&gt;</code> child entry for each <code>&lt;url&gt;</code> parent tag.</li>
+                <li><span class="rs">Include a <code>&lt;<a href="#lastmod">lastmod</a>&gt;</code> child entry for each <code>&lt;url&gt;</code> parent tag in order to enable baseline synchronization.</span>
+            </ul>
+            
+            <p class="rs">
+                Elements introduced for ResourceSync are in the <code>http://openarchives.org/FIXME</code> namespace. The <code>rs</code> prefix is used to indicate the <code>http://openarchives.org/FIXME</code> namespace throughout this document.
+            </p>
+
+            <h3>
+                Sample XML Sitemap Inventory
+            </h3>
+            <p>
+                The following example shows a Sitemap inventory using just the minimum required tags for resource synchronization.
+            </p>
+<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;<a href="#urlsetdef">urlset</a> xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"&gt;
+   &lt;<a href="#urldef">url</a>&gt;
+      &lt;<a href="#locdef">loc</a>&gt;http://www.example.com/res1&lt;/loc&gt;
+      &lt;<a href="#lastmoddef">lastmod</a>&gt;2005-01-01&lt;/lastmod&gt;
+   &lt;/url&gt;
+&lt;/urlset&gt; 
+</pre>
+            <p>
+                The following example shows a Sitemap inventory that contains just one URL and uses all optional tags. The optional tags are in italics.
+            </p>
+            <pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;<a href="#urlsetdef">urlset</a> xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        <span class="rs">xmlns:rs="http://openarchives.org/FIXME"</span>&gt;
+   &lt;<a href="#urldef">url</a>&gt;
+      &lt;<a href="#locdef">loc</a>&gt;http://www.example.com/res1&lt;/loc&gt;
+      &lt;<a href="#lastmoddef">lastmod</a>&gt;2005-01-01&lt;/lastmod&gt;
+      <em>&lt;<span class="rs"><a href="#sizedef">rs:size</a>&gt;5746&lt;/rs:size&gt;</span>
+      &lt;<span class="rs"><a href="#md5def">rs:md5</a>&gt;0.8&lt;/rs:md5&gt;</span>
+      &lt;<span class="rs"><a href="#tagdef">rs:tag</a>&gt;frogs&lt;/rs:tag&gt;</span>
+      &lt;<a href="#changefreqdef">changefreq</a>&gt;monthly&lt;/changefreq&gt;
+      &lt;<a href="#prioritydef">priority</a>&gt;0.8&lt;/priority&gt;</em>
+   &lt;/url&gt;
+&lt;/urlset&gt; 
+</pre>
+
+            <h3>
+                <a name="xmlTagDefinitions" id="xmlTagDefinitions"></a>XML tag definitions
+            </h3>
+            <p>
+                The available XML tags are described below.
+            </p>
+            <table width="80%">
+                <tr>
+                    <th>
+                        Attribute
+                    </th>
+                    <th></th>
+                    <th>
+                        Description
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <a name="urlsetdef" id="urlsetdef"></a><code>&lt;urlset&gt;</code>
+                    </td>
+                    <td>
+                        required
+                    </td>
+                    <td>
+                        <p>
+                            Encapsulates the file and references the current XML Sitemap <span class="rs">protocol standard</span>.
+                        </p>
+                    </td>
+                </tr>
+                <tr class="alt">
+                    <td>
+                        <a name="urldef" id="urldef"></a><code>&lt;url&gt;</code>
+                    </td>
+                    <td>
+                        required
+                    </td>
+                    <td>
+                        <p>
+                            Parent tag for each URL entry. The remaining tags are children of this tag.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a name="locdef" id="locdef"></a><code>&lt;loc&gt;</code>
+                    </td>
+                    <td>
+                        required
+                    </td>
+                    <td>
+                        <p>
+                            URL of the page. This URL must begin with the protocol (such as http) and end with a trailing slash, if your web server requires it. This value must be less than 2,048 characters.
+                        </p>
+                    </td>
+                </tr>
+                <tr class="alt">
+                    <td>
+                        <a name="lastmoddef" id="lastmoddef"></a><code>&lt;lastmod&gt;</code>
+                    </td>
+                    <td>
+                        optional <span class="rs">required?</span>
+                    </td>
+                    <td>
+                        <p>
+                            The date of last modification of the file. This date should be in <a href="http://www.w3.org/TR/NOTE-datetime">W3C Datetime</a> format. This format allows you to omit the time portion, if desired, and use YYYY-MM-DD.
+                        </p>
+                        <p>
+                            Note that this tag is separate from the If-Modified-Since (304) header the server can return, and search engines may use the information from both sources differently.
+                        </p>
+                    </td>
+                </tr>
+                <tr class="rs">
+                    <td>
+                        <a name="sizedef" id="sizedef"></a><code>&lt;rs:size&gt;</code>
+                    </td>
+                    <td>
+                        optional
+                    </td>
+                    <td>
+                        <p>
+                            The size in bytes of the resource.
+                        </p>
+                    </td>
+                </tr>
+                <tr class="alt rs">
+                    <td>
+                        <a name="md5def" id="md5def"></a><code>&lt;rs:md5&gt;</code>
+                    </td>
+                    <td>
+                        optional
+                    </td>
+                    <td>
+                        <p>
+                            The MD5 checksum for the resource expressed in hex, e.g. <code>4415d4a1df0e4bee731db465b04da138</code>.
+                        </p>
+                    </td>
+                </tr>
+                <tr class="rs">
+                    <td>
+                        <a name="tagdef" id="tagdef"></a><code>&lt;rs:tag&gt;</code>
+                    </td>
+                    <td>
+                        optional, repeatable
+                    </td>
+                    <td>
+                        <p>
+                            A keyword or term assigned to a resource, which may originate from existing controlled vocabularies. This element may be repeated to indicate multiple tags. A destination can use this element for selective synchronization. TODO: use dc:subject instead?
+                        </p>
+                    </td>
+                </tr>
+                <tr class="alt">
+                    <td>
+                        <a name="changefreqdef" id="changefreqdef"></a><code>&lt;changefreq&gt;</code>
+                    </td>
+                    <td>
+                        optional
+                    </td>
+                    <td>
+                        <p>
+                            How frequently the page is likely to change. This value provides general information to search engines and may not correlate exactly to how often they crawl the page. Valid values are:
+                        </p>
+                        <ul>
+                            <li>always
+                            </li>
+                            <li>hourly
+                            </li>
+                            <li>daily
+                            </li>
+                            <li>weekly
+                            </li>
+                            <li>monthly
+                            </li>
+                            <li>yearly
+                            </li>
+                            <li>never
+                            </li>
+                        </ul>
+                        <p>
+                            The value "always" should be used to describe documents that change each time they are accessed. The value "never" should be used to describe archived URLs.
+                        </p>
+                        <p>
+                            Please note that the value of this tag is considered a <i>hint</i> and not a command. Even though search engine crawlers may consider this information when making decisions, they may crawl pages marked "hourly" less frequently than that, and they may crawl pages marked "yearly" more frequently than that. Crawlers may periodically crawl pages marked "never" so that they can handle unexpected changes to those pages.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a name="prioritydef" id="prioritydef"></a><code>&lt;priority&gt;</code>
+                    </td>
+                    <td>
+                        optional
+                    </td>
+                    <td>
+                        <p>
+                            The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0. This value does not affect how your pages are compared to pages on other sites—it only lets the search engines know which pages you deem most important for the crawlers.
+                        </p>
+                        <p>
+                            The default priority of a page is 0.5.
+                        </p>
+                        <p>
+                            Please note that the priority you assign to a page is not likely to influence the position of your URLs in a search engine's result pages. Search engines may use this information when selecting between URLs on the same site, so you can use this tag to increase the likelihood that your most important pages are present in a search index.
+                        </p>
+                        <p>
+                            Also, please note that assigning a high priority to all of the URLs on your site is not likely to help you. Since the priority is relative, it is only used to select between URLs on your site.
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <p class="backtotop">
+                <a href="#top">Back to top</a>
+            </p>
+
+            <h3>
+                <a name="sitemapXMLExample" id="sitemapXMLExample"></a>Sample XML Sitemap
+            </h3>
+            <p>
+                The following example shows a Sitemap in XML format. The Sitemap in the example contains a small number of URLs, each using a different set of optional parameters.
+            </p>
+<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;<a href="#urlsetdef">urlset</a> xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        <span class="rs">xmlns:rs="http://openarchives.org/FIXME"</span>&gt;
+   &lt;<a href="#urldef">url</a>&gt;
+      &lt;<a href="#locdef">loc</a>&gt;http://www.example.com/res1&lt;/loc&gt;
+      &lt;<a href="#lastmoddef">lastmod</a>&gt;2005-01-01&lt;/lastmod&gt;
+      &lt;<span class="rs"><a href="#tagdef">rs:tag</a>&gt;frogs&lt;/rs:tag&gt;</span>      
+      &lt;<span class="rs"><a href="#tagdef">rs:tag</a>&gt;crocodiles&lt;/rs:tag&gt;</span>
+   &lt;/url&gt;
+   &lt;<a href="#urldef">url</a>&gt;
+      &lt;<a href="#locdef">loc</a>&gt;http://www.example.com/res2&lt;/loc&gt;
+      &lt;<a href="#lastmoddef">lastmod</a>&gt;2006-02-21T18:00:15+00:00&lt;/lastmod&gt;
+      &lt;<span class="rs"><a href="#tagdef">rs:tag</a>&gt;fish&lt;/rs:tag&gt;</span>
+   &lt;/url&gt;
+   &lt;<a href="#urldef">url</a>&gt;
+      &lt;<a href="#locdef">loc</a>&gt;http://www.example.com/res3&lt;/loc&gt;
+      &lt;<a href="#lastmoddef">lastmod</a>&gt;2007-03-23T18:00:15+00:00&lt;/lastmod&gt;
+      &lt;<span class="rs"><a href="#tagdef">rs:tag</a>&gt;humans&lt;/rs:tag&gt;</span>
+   &lt;/url&gt;
+&lt;/urlset&gt;
+</pre>
+            <p class="backtotop">
+                <a href="#top">Back to top</a>
+            </p>
+
+            <h2>
+                <a name="sitemap_index_inventory" id="sitemap_index_inventory"></a>Sitemap Index Inventory (to group multiple sitemap files)
+            </h2>
+            <p>
+                You can provide multiple Sitemap files, but each Sitemap file that you provide must have no more than 50,000 URLs and must be no larger than 10MB (10,485,760 bytes). If you would like, you may compress your Sitemap files using gzip to reduce your bandwidth requirement; however the sitemap file once uncompressed must be no larger than 10MB. If you want to list more than 50,000 URLs, you must create multiple Sitemap files.
+            </p>
+            <p>
+                If you do provide multiple Sitemaps, you should then list each Sitemap file in a Sitemap index file. Sitemap index files may not list more than 50,000 Sitemaps and must be no larger than 10MB (10,485,760 bytes) and can be compressed. You can have more than one Sitemap index file. The XML format of a Sitemap index file is very similar to the XML format of a Sitemap file.
+            </p>
+            <p class="rs">
+                The Sitemaps specification results in a limit of 2.5 billion (2.5x10<sup>9</sup>) resources if the sitemap limits are followed (and up to 500GB for all the Sitemap files). If necessary, strategies for extension might include relaxation of the size/entry limits of individual Sitemap and Sitemap index files, or extension to three (or more) tiers where a Sitemap index may specify a set of Sitemap indexes (with three levels one could then support 125 trillion (1.25x10<sup>14</sup>) resources and the Sitemaps alone would be extremely large, up to 25PB).
+            </p>
+            
+            <p>
+                The Sitemap index file must:
+            </p>
+            <ul>
+                <li>Begin with an opening <code>&lt;<a href="#sitemapIndex_sitemapindex">sitemapindex</a>&gt;</code> tag and end with a closing <code>&lt;/sitemapindex&gt;</code> tag.
+                </li>
+                <li>Include a <code>&lt;<a href="#sitemapIndex_sitemap">sitemap</a>&gt;</code> entry for each Sitemap as a parent XML tag.
+                </li>
+                <li>Include a <code>&lt;<a href="#sitemapIndex_loc">loc</a>&gt;</code> child entry for each <code>&lt;sitemap&gt;</code> parent tag.
+                </li>
+            </ul>
+            <p>
+                The optional <code>&lt;<a href="#sitemapIndex_lastmod">lastmod</a>&gt;</code> and <span class="rs"><code>&lt;<a href="#sitemapIndex_tag">rs:tag</a>&gt;</code></span> elements are also available for Sitemap index files.
+            </p>
+            <p>
+                <strong>Note:</strong> A Sitemap index file can only specify Sitemaps that are found on the same site as the Sitemap index file. For example, http://www.yoursite.com/sitemap_index.xml can include Sitemaps on http://www.yoursite.com but not on http://www.example.com or http://yourhost.yoursite.com. As with Sitemaps, your Sitemap index file must be UTF-8 encoded.
+            </p>
+            
+            <h3>
+                <a name="sitemapIndexXMLExample" id="sitemapIndexXMLExample"></a>Sample XML Sitemap Index
+            </h3>
+            <p>
+                The following example shows a Sitemap index that lists two Sitemaps:
+            </p>
+            <pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;<a href="#sitemapIndex_sitemapindex">sitemapindex</a> xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        <span class="rs">xmlns:rs="http://openarchives.org/FIXME"</span>&gt;
+   &lt;<a href="#sitemapIndex_sitemap">sitemap</a>&gt;
+      &lt;<a href="#sitemapIndex_loc">loc</a>&gt;http://www.example.com/sitemap1.xml.gz&lt;/loc&gt;
+      &lt;<a href="#sitemapIndex_lastmod">lastmod</a>&gt;2012-10-01T18:23:17+00:00&lt;/lastmod&gt;
+      &lt;<span class="rs"><a href="#tagdef">rs:tag</a>&gt;frogs&lt;/rs:tag&gt;</span>
+      &lt;<span class="rs"><a href="#tagdef">rs:tag</a>&gt;crocodiles&lt;/rs:tag&gt;</span>
+      &lt;<span class="rs"><a href="#tagdef">rs:tag</a>&gt;fish&lt;/rs:tag&gt;</span>
+   &lt;/sitemap&gt;
+   &lt;<a href="#sitemapIndex_sitemap">sitemap</a>&gt;
+      &lt;<a href="#sitemapIndex_loc">loc</a>&gt;http://www.example.com/sitemap2.xml.gz&lt;/loc&gt;
+      &lt;<a href="#sitemapIndex_lastmod">lastmod</a>&gt;2012-01-01&lt;/lastmod&gt;
+      &lt;<span class="rs"><a href="#tagdef">rs:tag</a>&gt;humans&lt;/rs:tag&gt;</span>
+   &lt;/sitemap&gt;
+&lt;/sitemapindex&gt;
+</pre>
+            <p>
+                <strong>Note:</strong> Sitemap URLs, like all values in your XML files, must be <a href="#escaping">entity escaped</a>.
+            </p>
+            <h3>
+                <a name="sitemapIndexTagDefinitions" id="sitemapIndexTagDefinitions"></a>Sitemap Index XML Tag Definitions
+            </h3>
+            <table width="80%">
+                <tr>
+                    <th>
+                        Attribute
+                    </th>
+                    <th></th>
+                    <th>
+                        Description
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <a name="sitemapIndex_sitemapindex" id="sitemapIndex_sitemapindex"></a><code>&lt;sitemapindex&gt;</code>
+                    </td>
+                    <td>
+                        required
+                    </td>
+                    <td>
+                        Encapsulates information about all of the Sitemaps in the file.
+                    </td>
+                </tr>
+                <tr class="alt">
+                    <td>
+                        <a name="sitemapIndex_sitemap" id="sitemapIndex_sitemap"></a><code>&lt;sitemap&gt;</code>
+                    </td>
+                    <td>
+                        required
+                    </td>
+                    <td>
+                        Encapsulates information about an individual Sitemap.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a name="sitemapIndex_loc" id="sitemapIndex_loc"></a><code>&lt;loc&gt;</code>
+                    </td>
+                    <td>
+                        required
+                    </td>
+                    <td>
+                        <p>
+                            Identifies the location of the Sitemap.
+                        </p>
+                        <p>
+                            This location can be a Sitemap, an Atom file, RSS file or a simple text file.
+                        </p>
+                    </td>
+                </tr>
+                <tr class="alt">
+                    <td>
+                        <a name="sitemapIndex_lastmod" id="sitemapIndex_lastmod"></a><code>&lt;lastmod&gt;</code>
+                    </td>
+                    <td>
+                        optional
+                    </td>
+                    <td>
+                        <p>
+                            Identifies the time that the corresponding Sitemap file was modified. It does not correspond to the time that any of the pages listed in that Sitemap were changed. The value for the lastmod tag should be in <a href="http://www.w3.org/TR/NOTE-datetime">W3C Datetime</a> format.
+                        </p>
+                        <p>
+                            By providing the last modification timestamp, you enable search engine crawlers to retrieve only a subset of the Sitemaps in the index i.e. a crawler may only retrieve Sitemaps that were modified since a certain date. This incremental Sitemap fetching mechanism allows for the rapid discovery of new URLs on very large sites.
+                        </p>
+                    </td>
+                </tr>
+                <tr class="alt rs">
+                    <td>
+                        <a name="sitemapIndex_tag" id="sitemapIndex_tag"></a><code>&lt;tag&gt;</code>
+                    </td>
+                    <td>
+                        optional
+                    </td>
+                    <td>
+                        <p>
+                            A keyword or term assigned to a Sitemap. This terms is aggregated from the resources' tags within a Sitemap. This element may be repeated to indicate multiple tags. A destination can use this element for selective synchronization. TODO: use dc:subject instead?
+                        </p>
+                        <p>
+                            By providing tags clients can retrieve only a subsets of available Sitemap index files.
+                        </p>
+                    </td>
+                </tr>
+                
+                
+            </table>
+
+            <p class="backtotop">
+                <a href="#top">Back to top</a>
+            </p>
+            
+            <p class="date rs">
+                Last Updated: $Date: 2012-03-08 16:52:10 $
+            </p>
+        </div><!-- closes #maincontent -->
+        
+        <!-- closes #container -->
+        <div id="footer">
+            <p class="rs">
+                The information on the <a href="http://sitemaps.org/protocol.html">sitemaps.org</a> website is provided under a Creative Commons Attribution-ShareAlike License (version 2.5) license. This page is based on the original as of 2012-03-07 and marked <i>"Last Updated: 27 February 2008"</i>. This page is provided under the <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-ShareAlike License (version 3.0) license</a>.
+            </p>
+        </div>
+    </body>
+</html>
