@@ -20,9 +20,9 @@
             <!-- TOC -->
             <blockquote>
                 <b>Jump to:</b><br />
-                <a href="#sitemap_inventory">Sitemap Inventory</a><br />
-                <a href="#sitemap_index_inventory">Sitemap Index Inventory</a><br />
+                <a href="#baseline_sync">Baseline Synchronization</a><br />
                 <a href="#sitemap_discovery">Synchronization Component Discovery</a><br />
+                <a href="#change_communication">Change Communication</a><br />
             </blockquote>
             
             <!-- Intro -->
@@ -36,9 +36,9 @@
 
             <!-- INVENTORY -->
             <h2>
-                <a name="sitemap_inventory" id="sitemap_inventory"></a>Sitemap Inventory
+                <a name="baseline_sync" id="baseline_sync"></a>Baseline Synchronization
             </h2>
-            <p>ResourceSync relies on Sitemaps to describe the <em>list of resources</em> (= the INVENTORY) contained in a source.</p>
+            <p>ResourceSync uses XML Sitemaps to describe the <em>list of resources</em> (= the INVENTORY) contained in a source.</p>
             <p>
                 The Sitemap protocol format consists of XML tags. All data values in a Sitemap must be <a href="http://www.sitemaps.org/protocol.html#escaping">entity-escaped</a>. The file itself must be UTF-8 encoded.
             </p>
@@ -261,10 +261,6 @@
                     </td>
                 </tr>
             </table>
-            <p class="backtotop">
-                <a href="#top">Back to top</a>
-            </p>
-
             <h3>
                 <a name="sitemapXMLExample" id="sitemapXMLExample"></a>Sample XML Sitemap
             </h3>
@@ -293,13 +289,9 @@
    &lt;/url&gt;
 &lt;/urlset&gt;
 </pre>
-            <p class="backtotop">
-                <a href="#top">Back to top</a>
-            </p>
-
-            <h2>
+            <h3>
                 <a name="sitemap_index_inventory" id="sitemap_index_inventory"></a>Sitemap Index Inventory (to group multiple sitemap files)
-            </h2>
+            </h3>
             <p>
                 You can provide multiple Sitemap files, but each Sitemap file that you provide must have no more than 50,000 URLs and must be no larger than 10MB (10,485,760 bytes). If you would like, you may compress your Sitemap files using gzip to reduce your bandwidth requirement; however the sitemap file once uncompressed must be no larger than 10MB. If you want to list more than 50,000 URLs, you must create multiple Sitemap files.
             </p>
@@ -615,27 +607,42 @@
        &lt;lastmod&gt;2005-01-01&lt;/lastmod&gt;
        &lt;rs:tag&gt;frogs&lt;/rs:tag&gt;      
        &lt;rs:tag&gt;crocodiles&lt;/rs:tag&gt;
-       &lt;atom:link href=&quot;http://example.com/timegate/http://www.example.com/5/res1&quot; rel=&quot;self&quot;/&gt;
+<span class="rs">       &lt;atom:link href=&quot;http://example.com/timegate/http://www.example.com/5/res1&quot; rel=&quot;self&quot;/&gt;</span>
     &lt;/url&gt;
     &lt;url&gt;
        &lt;loc&gt;http://www.example.com/res2&lt;/loc&gt;
        &lt;lastmod&gt;2006-02-21T18:00:15+00:00&lt;/lastmod&gt;
        &lt;rs:tag&gt;fish&lt;/rs:tag&gt;
-       &lt;atom:link href=&quot;http://example.com/timegate/http://www.example.com/10/res2&quot; rel=&quot;self&quot;/&gt;
+<span class="rs">       &lt;atom:link href=&quot;http://example.com/timegate/http://www.example.com/10/res2&quot; rel=&quot;self&quot;/&gt;</span>
     &lt;/url&gt;
     &lt;url&gt;
        &lt;loc&gt;http://www.example.com/res3&lt;/loc&gt;
        &lt;lastmod&gt;2007-03-23T18:00:15+00:00&lt;/lastmod&gt;
        &lt;rs:tag&gt;humans&lt;/rs:tag&gt;
-       &lt;atom:link href=&quot;http://example.com/timegate/http://www.example.com/3/res3&quot; rel=&quot;self&quot;/&gt;
+<span class="rs">       &lt;atom:link href=&quot;http://example.com/timegate/http://www.example.com/3/res3&quot; rel=&quot;self&quot;/&gt;</span>
     &lt;/url&gt;   
 
 &lt;/urlset&gt;
 </pre>            
-            
-            <p class="date rs">
-                Last Updated: $Date: 2012-03-08 16:52:10 $
-            </p>
+<p class="backtotop">
+    <a href="#top">Back to top</a>
+</p>
+
+        <!-- CHANGE COMMUNICATION -->
+        <h2>
+            <a name="change_communication" id="change_communication"></a>Change Communication
+        </h2>
+
+        <p>blurb explaining change communication</p>
+
+        <p class="date rs">
+            Last Updated: $Date: 2012-06-04 16:52:10 $
+        </p>
+        
+        
+        
+        
+        
         </div><!-- closes #maincontent -->
         
         <!-- closes #container -->
