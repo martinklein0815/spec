@@ -633,16 +633,47 @@
             <a name="change_communication" id="change_communication"></a>Change Communication
         </h2>
 
-        <p>blurb explaining change communication</p>
+        <p>Changesets are identified by dereferencable URIs. A changeset serialization links to itself (self)
+            and to the next changeset (next). <span class="rs">specify order?</span></p>
+            
+        <h3>Dynamically Generated Changeset Example</h3>
+        
+        <p><span class="rs">blurb</span></p>
 
+<pre>
+&lt;changeset xmlns=&quot;http://openarchives.org/FIXME&quot;
+        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+        xmlns:sm=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
+        xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
+
+<span class="rs">    &lt;atom:link href=&quot;http://example.com/changes/22/diff&quot; rel=&quot;self rs:changeset&quot;/&gt;
+    &lt;atom:link href=&quot;http://example.com/changes/24/diff&quot; rel=&quot;next rs:changeset&quot;/&gt;</span>
+
+    &lt;sm:url&gt;
+<span class="rs">       &lt;rs:eventid&gt;http://example.com/changes/22&lt;/rs:eventid&gt;</span>
+       &lt;sm:loc&gt;http://www.example.com/res1&lt;/sm:loc&gt;
+       &lt;sm:lastmod&gt;2012-05-30&lt;/sm:lastmod&gt;
+       &lt;rs:tag&gt;frogs&lt;/rs:tag&gt;      
+       &lt;rs:tag&gt;crocodiles&lt;/rs:tag&gt;
+<span class="rs">       &lt;rs:eventtype&gt;updated&lt;/rs:eventtype&gt;
+       &lt;dc:publisher&gt;http://example.com&lt;/dc:publisher&gt; &lt;!-- optional --&gt;</span>
+    &lt;/sm:url&gt;
+    &lt;sm:url&gt;
+<span class="rs">       &lt;rs:eventid&gt;http://example.com/changes/24&lt;/rs:eventid&gt;</span>     
+       &lt;sm:loc&gt;http://www.example.com/res4&lt;/sm:loc&gt;
+       &lt;sm:lastmod&gt;2012-05-31&lt;/sm:lastmod&gt;
+       &lt;rs:tag&gt;elephants&lt;/rs:tag&gt;
+<span class="rs">       &lt;rs:eventtype&gt;created&lt;/rs:eventtype&gt;
+       &lt;dc:publisher&gt;http://example.com&lt;/dc:publisher&gt; &lt;!-- optional --&gt;</span>
+    &lt;/sm:url&gt;
+&lt;/changeset&gt;
+</pre>   
+        
+         <h3>Static Changeset Example</h3>
+        
         <p class="date rs">
             Last Updated: $Date: 2012-06-04 16:52:10 $
         </p>
-        
-        
-        
-        
-        
         </div><!-- closes #maincontent -->
         
         <!-- closes #container -->
