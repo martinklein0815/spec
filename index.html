@@ -15,13 +15,14 @@
         </p>
         <div id="mainContent">
             <h1>
-                <a name="resync_protocol" id="resync_protocol"></a>ResourceSync Protocol Specification
+                <a name="resync_protocol" id="resync_protocol"></a>ResourceSync Protocol Specification (Working Draft)
             </h1>
             <!-- TOC -->
             <blockquote>
                 <b>Jump to:</b><br />
                 <a href="#sitemap_inventory">Sitemap Inventory</a><br />
                 <a href="#sitemap_index_inventory">Sitemap Index Inventory</a><br />
+                <a href="#sitemap_discovery">Synchronization Component Discovery</a><br />
             </blockquote>
             
             <!-- Intro -->
@@ -421,7 +422,7 @@
                         </p>
                     </td>
                 </tr>
-                <tr class="alt rs">
+                <tr class="rs">
                     <td>
                         <a name="sitemapIndex_tag" id="sitemapIndex_tag"></a><code>&lt;tag&gt;</code>
                     </td>
@@ -433,7 +434,7 @@
                             A keyword or term assigned to a Sitemap. This terms is aggregated from the resources' tags within a Sitemap. This element may be repeated to indicate multiple tags. A destination can use this element for selective synchronization. TODO: use dc:subject instead?
                         </p>
                         <p>
-                            By providing tags clients can retrieve only a subsets of available Sitemap index files.
+                            By providing tags clients can retrieve only a subset of available Sitemap index files.
                         </p>
                     </td>
                 </tr>
@@ -444,6 +445,88 @@
             <p class="backtotop">
                 <a href="#top">Back to top</a>
             </p>
+            
+            
+            <!-- INVENTORY - COMPONENT DISCOVERY -->
+            <h2>
+                <a name="sitemap_discovery" id="sitemap_discovery"></a>Synchronization Component Discovery
+            </h2>
+            
+            <p>As discussed before, ResourceSync proposes a modular synchronization framework, consisting of several components. The availability of these components depends on the source's capabilities. If available, a source can describe its capabilities by linking these components from the inventory. <span class="rs">TODO: more details on this!</span></p>
+            
+            
+            <h3>
+                <a name="dump_discovery" id="dump_discovery"></a>Dump Discovery
+            </h3>
+            
+            <p>A source may periodically produce dumps of all its resources and resource metadata. In the source inventory (its Sitemap) It can provide links to these dumps.</p>
+
+<pre>
+&lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
+        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+        xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
+<span class="rs">
+    &lt;!-- the source produces resource dumps --&gt;
+    &lt;atom:link href=&quot;http://example.com/dump/dump1.tar.gz&quot; rel=&quot;rs:dump&quot; rs:tag=&quot;crocodiles&quot; rs:tag=&quot;frogs&quot;/&gt;
+    &lt;atom:link href=&quot;http://example.com/dump/dump2.tar.gz&quot; rel=&quot;rs:dump&quot; rs:tag=&quot;fish&quot;/&gt;
+    &lt;atom:link href=&quot;http://example.com/dump/dump2.tar.gz&quot; rel=&quot;rs:dump&quot; rs:tag=&quot;humans&quot;/&gt;
+</span>
+    &lt;url&gt;
+       &lt;loc&gt;http://www.example.com/res1&lt;/loc&gt;
+       &lt;lastmod&gt;2005-01-01&lt;/lastmod&gt;
+       &lt;rs:tag&gt;frogs&lt;/rs:tag&gt;      
+       &lt;rs:tag&gt;crocodiles&lt;/rs:tag&gt;
+    &lt;/url&gt;
+    &lt;url&gt;
+       &lt;loc&gt;http://www.example.com/res2&lt;/loc&gt;
+       &lt;lastmod&gt;2006-02-21T18:00:15+00:00&lt;/lastmod&gt;
+       &lt;rs:tag&gt;fish&lt;/rs:tag&gt;
+    &lt;/url&gt;
+    &lt;url&gt;
+       &lt;loc&gt;http://www.example.com/res3&lt;/loc&gt;
+       &lt;lastmod&gt;2007-03-23T18:00:15+00:00&lt;/lastmod&gt;
+       &lt;rs:tag&gt;humans&lt;/rs:tag&gt;
+    &lt;/url&gt;
+&lt;/urlset&gt;
+</pre>            
+
+            <h3>
+                <a name="change_comm_discovery" id="change_comm_discovery"></a>Change Communication Discovery (PULL)
+            </h3>
+
+            <p>Pull-based change communication means that the client (destination) dereferences a URI and receives a serialized set of change events, called changeset. <span class="rs">TODO: point to Changeset definition</span></p>
+            
+            <p>Changesets can be exposed as static or dynamic resources; in any case, they must be dereferencable resources.</p>
+
+<pre>
+&lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
+        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+        xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
+
+<span class="rs">   &lt;!-- Static changeset file --&gt;
+   &lt;atom:link href=&quot;http://example.com/changes/changeset.xml&quot; rel=&quot;rs:changeset&quot;/&gt;</span>
+
+   &lt;url&gt;...&lt;/url&gt;
+
+   &lt;url&gt;...&lt;/url&gt;
+
+&lt;/urlset&gt;
+</pre>
+
+<pre>
+&lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
+        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+        xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
+
+<span class="rs">   &lt;!-- Dynamically generated changeset  --&gt;
+   &lt;atom:link href=&quot;http://example.com/changes/20/diff&quot; rel=&quot;rs:changeset&quot;/&gt;</span>
+
+   &lt;url&gt;...&lt;/url&gt;
+
+   &lt;url&gt;...&lt;/url&gt;
+
+&lt;/urlset&gt;
+</pre>
             
             <p class="date rs">
                 Last Updated: $Date: 2012-03-08 16:52:10 $
