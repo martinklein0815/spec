@@ -22,10 +22,10 @@
                 <b>Jump to:</b><br />
                 <a href="ädefinitions">Definitions</a><br />
                 <a href="#baseline_sync">Baseline Synchronization</a><br />
-                <a href="#sitemap_discovery">Synchronization Component Discovery</a><br />
+                <a href="#source_capability">Source Capabilities Description</a><br />
                 <a href="#change_communication">Change Communication</a><br />
                 <a href="#dump_packaging">Dump Packaging</a><br />
-                <a href="#resource_access_override">Resource Access Override</a><br />
+                <a href="#resource_transfer_override">Resource Transfer Override</a><br />
             </blockquote>
             
             <!-- Intro -->
@@ -107,12 +107,9 @@
             <h2>
                 <a name="baseline_sync" id="baseline_sync"></a>Baseline Synchronization
             </h2>
-            <p>To allow a Destination to perform an initial synchronization with a Source, it needs to retrieve the <strong>list of resources</strong> contained in a source, i.e., the Source's inventory.</p>
+            <p>To allow a Destination to perform an initial synchronization with a Source, it needs to retrieve the list of Resources available in a Source, its <strong>Inventory</strong>.</p>
                 
-            <p>ResourceSync uses <a href="http://www.sitemaps.org/" title="sitemaps.org - Home">XML Sitemaps</a> to describe the list of resources contained in a source.</p>
-            <p>
-                The Sitemap protocol format consists of XML tags. All data values in a Sitemap must be <a href="http://www.sitemaps.org/protocol.html#escaping">entity-escaped</a>. The file itself must be UTF-8 encoded.
-            </p>
+            <p>A Source generates an <a href="http://www.sitemaps.org/" title="sitemaps.org - Home">XML Sitemap</a> to describe its Inventory. All data values in a Sitemap must be <a href="http://www.sitemaps.org/protocol.html#escaping">entity-escaped</a>. The Sitemap serialization must be UTF-8 encoded.</p>
             <p>
                 The Sitemap must:
             </p>
@@ -123,11 +120,11 @@
                 </li>
                 <li>Include a <code>&lt;<a href="#urldef">url</a>&gt;</code> entry for each URL <span class="rs">(resource)</span>, as a parent XML tag.    </li>
                 <li>Include a <code>&lt;<a href="#locdef">loc</a>&gt;</code> child entry for each <code>&lt;url&gt;</code> parent tag.</li>
-                <li><span class="rs">Include a <code>&lt;<a href="#lastmod">lastmod</a>&gt;</code> child entry for each <code>&lt;url&gt;</code> parent tag in order to enable baseline synchronization.</span>
+                <li><span class="rs">Include a <code>&lt;<a href="#lastmod">lastmod</a>&gt;</code> child entry for each <code>&lt;url&gt;</code> parent tag in order to enable baseline synchronization. (TODO: mandatory for ResourceSync?)</span>
             </ul>
             
-            <p class="rs">
-                Elements introduced for ResourceSync are in the <code>http://openarchives.org/FIXME</code> namespace. The <code>rs</code> prefix is used to indicate the <code>http://openarchives.org/FIXME</code> namespace throughout this document.
+            <p>
+                Elements introduced for ResourceSync are in the <code class="rs">http://resourcesync.org/schemas/resync/0.9</code> namespace. The <code class="rs">rs</code> prefix is used to indicate that XML tags are defined in that namespace.
             </p>
 
             <h3>
@@ -151,7 +148,7 @@
             <pre>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;<a href="#urlsetdef">urlset</a> xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        <span class="rs">xmlns:rs="http://openarchives.org/FIXME"</span>&gt;
+        <span class="rs">xmlns:rs="http://resourcesync.org/schemas/resync/0.9"</span>&gt;
    &lt;<a href="#urldef">url</a>&gt;
       &lt;<a href="#locdef">loc</a>&gt;http://www.example.com/res1&lt;/loc&gt;
       &lt;<a href="#lastmoddef">lastmod</a>&gt;2005-01-01&lt;/lastmod&gt;
@@ -336,12 +333,12 @@
                 <a name="sitemapXMLExample" id="sitemapXMLExample"></a>Sample XML Sitemap
             </h3>
             <p>
-                The following example shows a Sitemap in XML format. The Sitemap in the example contains a small number of URLs, each using a different set of optional parameters.
+                The following example shows a Sitemap in XML format. The Sitemap in the example contains a small number of URLs.
             </p>
 <pre>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;<a href="#urlsetdef">urlset</a> xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        <span class="rs">xmlns:rs="http://openarchives.org/FIXME"</span>&gt;
+        <span class="rs">xmlns:rs="http://resourcesync.org/schemas/resync/0.9"</span>&gt;
    &lt;<a href="#urldef">url</a>&gt;
       &lt;<a href="#locdef">loc</a>&gt;http://www.example.com/res1&lt;/loc&gt;
       &lt;<a href="#lastmoddef">lastmod</a>&gt;2005-01-01&lt;/lastmod&gt;
@@ -385,7 +382,7 @@
                 </li>
             </ul>
             <p>
-                The optional <code>&lt;<a href="#sitemapIndex_lastmod">lastmod</a>&gt;</code> and <span class="rs"><code>&lt;<a href="#sitemapIndex_tag">rs:tag</a>&gt;</code></span> elements are also available for Sitemap index files.
+                The <code>&lt;<a href="#sitemapIndex_lastmod">lastmod</a>&gt;</code> and <span class="rs"><code>&lt;<a href="#sitemapIndex_tag">rs:tag</a>&gt;</code></span> elements are optional Sitemap index files.
             </p>
             <p>
                 <strong>Note:</strong> A Sitemap index file can only specify Sitemaps that are found on the same site as the Sitemap index file. For example, http://www.yoursite.com/sitemap_index.xml can include Sitemaps on http://www.yoursite.com but not on http://www.example.com or http://yourhost.yoursite.com. As with Sitemaps, your Sitemap index file must be UTF-8 encoded.
@@ -400,7 +397,7 @@
             <pre>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;<a href="#sitemapIndex_sitemapindex">sitemapindex</a> xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        <span class="rs">xmlns:rs="http://openarchives.org/FIXME"</span>&gt;
+        <span class="rs">xmlns:rs="http://resourcesync.org/schemas/resync/0.9"</span>&gt;
    &lt;<a href="#sitemapIndex_sitemap">sitemap</a>&gt;
       &lt;<a href="#sitemapIndex_loc">loc</a>&gt;http://www.example.com/sitemap1.xml.gz&lt;/loc&gt;
       &lt;<a href="#sitemapIndex_lastmod">lastmod</a>&gt;2012-10-01T18:23:17+00:00&lt;/lastmod&gt;
@@ -487,7 +484,7 @@
                 </tr>
                 <tr class="rs">
                     <td>
-                        <a name="sitemapIndex_tag" id="sitemapIndex_tag"></a><code>&lt;tag&gt;</code>
+                        <a name="sitemapIndex_tag" id="sitemapIndex_tag"></a><code>&lt;rs:tag&gt;</code>
                     </td>
                     <td>
                         optional
@@ -502,7 +499,6 @@
                     </td>
                 </tr>
                 
-                
             </table>
 
             <p class="backtotop">
@@ -512,21 +508,21 @@
             
             <!-- INVENTORY - COMPONENT DISCOVERY -->
             <h2>
-                <a name="sitemap_discovery" id="sitemap_discovery"></a>Synchronization Component Discovery
+                <a name="source_capability" id="source_capability"></a>Source Capabilities Description
             </h2>
             
-            <p>As discussed before, ResourceSync proposes a modular synchronization framework, consisting of several components. The availability of these components depends on the source's capabilities. If available, a source can describe its capabilities by linking these components from the inventory. <span class="rs">TODO: more details on this!</span></p>
+            <p>ResourceSync proposes a <strong>modular</strong> synchronization framework, consisting of several components. The availability of these components depends on a Source's capabilities. A Source can describe its capabilities by providing links to available synchronization components. <span class="rs">TODO: more details on this!</span></p>
             
             
             <h3>
                 <a name="dump_discovery" id="dump_discovery"></a>Dump Discovery
             </h3>
             
-            <p>A source may periodically produce dumps of all its resources and resource metadata. In the source inventory (its Sitemap) It can provide links to these dumps.</p>
+            <p>A source may periodically produce Dumps, which are packages of Resources and associated Metadata. It gives a Destination the opportunity to obtain the resource content without having to pull all resources separately via HTTP GET requests. A Source can indicate the availability of Dumps by providing links to downloadable dump files in its Sitemap inventory.</p>
 
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+        xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
         xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 <span class="rs">
     &lt;!-- the source produces resource dumps --&gt;
@@ -557,13 +553,13 @@
                 <a name="change_comm_discovery_pull" id="change_comm_discovery_pull"></a>Change Communication Discovery (PULL)
             </h3>
 
-            <p>Pull-based change communication means that the client (destination) dereferences a URI and receives a serialized set of change events, called changeset. <span class="rs">TODO: point to Changeset definition</span></p>
+            <p>Pull-based Incremental Synchronization relies on changes being polled by the Destination. Therefore, a Source may provide links to relevant ChangeSets in a Change Memory, which may be hosted by the Source itself or an external Change Memory service. A ChangeSet is identified by a de-referencable URI and contains an entry for each change event that occurred on a Source's resources <strong>after</strong> the creation of the inventory, i.e, the Sitemap serialization. <span class="rs">TODO: pointer to ChangeSet</span></p>
             
-            <p>Changesets can be exposed as static or dynamic resources; in any case, they must be dereferencable resources.</p>
+            <p>ChangeSets can be static dumps (e.g., files on a Web server)...</p>
 
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-    xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+    xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
     xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 
 <span class="rs">   &lt;!-- Static changeset file --&gt;
@@ -576,9 +572,11 @@
 &lt;/urlset&gt;
 </pre>
 
+<p>...or dynamically generated Web resources (e.g., DB-backed Change Memory).</p>
+
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-    xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+    xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
     xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 
 <span class="rs">   &lt;!-- Dynamically generated changeset  --&gt;
@@ -595,15 +593,15 @@
                 <a name="change_comm_discovery_push" id="change_comm_discovery_push"></a>Change Communication Discovery (PUSH)
             </h3>
 
-            <p>Push-based change communication means that the client (destination) receives messages containing serialized change events (changeset). <span class="rs">TODO: point to Changeset definition</span></p>
+            <p>Push-based Incremental Synchronization relies on changes being pushed from the Source to the Destination, likely via an intermediary notification service. Therefore, a Source may provide links to (an) intermediary notification service(s) a Destination can subscribe to.</p>
             
 
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-    xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+    xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
     xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 
-<span class="rs">   &lt;!-- The used change notification transport protocol --&gt; 
+<span class="rs">    &lt;!-- The intermediary notification service --&gt; 
     &lt;atom:link href=&quot;xmpp:pubsub.example.org/&quot; rel=&quot;rs:notification&quot; rs:profile=&quot;&lt;spec-uri&gt;&quot; rs:pubsubnode=&quot;All&quot;/&gt;</span>
 
     &lt;url&gt;...&lt;/url&gt;
@@ -613,14 +611,16 @@
 &lt;/urlset&gt;
 </pre>
 
+<p>Push- and Pull-based Incremental Synchronization can be combined. A Source can indicate the availability of an intermediary notification service and a Change Memory service. A Destination can subscribe to the notification service and eventually catch up with change events by polling the Change Memory.</p>
+
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-    xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+    xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
     xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 
 <span class="rs">   &lt;!-- The used change notification transport protocol --&gt; 
    &lt;atom:link href=&quot;xmpp:pubsub.example.org/&quot; rel=&quot;rs:notification&quot; rs:profile=&quot;&lt;spec-uri&gt;&quot; rs:pubsubnode=&quot;All&quot;/&gt;
-   &lt;!-- The change memory for pulling changes --&gt;
+   &lt;!-- The change memory for polling changes --&gt;
    &lt;atom:link href=&quot;http://example.com/changes/changeset.xml&quot; rel=&quot;rs:changeset&quot;/&gt;</span>
 
    &lt;url&gt;...&lt;/url&gt;
@@ -634,11 +634,11 @@
                 <a name="resource_memory_discovery_memento" id="resource_memory_discovery_memento"></a>Resource Memory Discovery (via Memento)
             </h3>
             
-            <p>Access to (previous) resource versions can be provided by Memento.</p>
+            <p>A Source can indicate the availability of archived or past resource states by providing links to Memento TimeGates <span class="rs">TODO: link!</span>.</p>
             
 <pre>            
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-    xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+    xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
     xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 
     &lt;url&gt;
@@ -668,29 +668,29 @@
                 <a name="resource_memory_discovery_versioning" id="resource_memory_discovery_versioning"></a>Resource Memory Discovery (via Resource version URIs)
             </h3>
             
-            <p>Access to (previous) resource versions can be provided by the source itself (e.g., as in Wikipedia).</p>
+            <p>A Source can indicate the availability of archived or past resource states by providing Resource version URIs (e.g., as in Wikipedia).</p>
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;&gt;
+        xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;&gt;
 
     &lt;url&gt;
        &lt;loc&gt;http://www.example.com/res1&lt;/loc&gt;
        &lt;lastmod&gt;2005-01-01&lt;/lastmod&gt;
        &lt;rs:tag&gt;frogs&lt;/rs:tag&gt;      
        &lt;rs:tag&gt;crocodiles&lt;/rs:tag&gt;
-<span class="rs">       &lt;atom:link href=&quot;http://example.com/timegate/http://www.example.com/5/res1&quot; rel=&quot;self&quot;/&gt;</span>
+<span class="rs">       &lt;atom:link href=&quot;http://example.com/5/res1&quot; rel=&quot;self&quot;/&gt;</span>
     &lt;/url&gt;
     &lt;url&gt;
        &lt;loc&gt;http://www.example.com/res2&lt;/loc&gt;
        &lt;lastmod&gt;2006-02-21T18:00:15+00:00&lt;/lastmod&gt;
        &lt;rs:tag&gt;fish&lt;/rs:tag&gt;
-<span class="rs">       &lt;atom:link href=&quot;http://example.com/timegate/http://www.example.com/10/res2&quot; rel=&quot;self&quot;/&gt;</span>
+<span class="rs">       &lt;atom:link href=&quot;http://example.com/10/res2&quot; rel=&quot;self&quot;/&gt;</span>
     &lt;/url&gt;
     &lt;url&gt;
        &lt;loc&gt;http://www.example.com/res3&lt;/loc&gt;
        &lt;lastmod&gt;2007-03-23T18:00:15+00:00&lt;/lastmod&gt;
        &lt;rs:tag&gt;humans&lt;/rs:tag&gt;
-<span class="rs">       &lt;atom:link href=&quot;http://example.com/timegate/http://www.example.com/3/res3&quot; rel=&quot;self&quot;/&gt;</span>
+<span class="rs">       &lt;atom:link href=&quot;http://example.com/3/res3&quot; rel=&quot;self&quot;/&gt;</span>
     &lt;/url&gt;   
 
 &lt;/urlset&gt;
@@ -712,8 +712,8 @@
         <p><span class="rs">TODO: blurb</span></p>
 
 <pre>
-&lt;changeset xmlns=&quot;http://openarchives.org/FIXME&quot;
-        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+&lt;changeset xmlns=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
+        xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
         xmlns:sm=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
         xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 
@@ -745,8 +745,8 @@
         <p><span class="rs">TODO: blurb</span></p>
         
 <pre>
-&lt;changeset xmlns=&quot;http://openarchives.org/FIXME&quot;
-        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+&lt;changeset xmlns=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
+        xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
         xmlns:sm=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
         xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 
@@ -779,7 +779,7 @@
         <p><span class="rs">TODO: blurb</span></p>
         
 <pre>
-&lt;message xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+&lt;message xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
     xmlns:sm=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;&gt;
     &lt;event&gt;
         &lt;items&gt;
@@ -831,10 +831,10 @@ callbackURI=http://aggregator.org/callback
 
 >> Change Notification <<
 POST /callback HTTP/1.1
-Host: http://aggregator.org
+Host: aggregator.org
 
-&lt;changeset xmlns=&quot;http://openarchives.org/FIXME&quot;
-        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+&lt;changeset xmlns=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
+        xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
         xmlns:sm=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;&gt;
 
     &lt;!-- don&#x27;t put any atom links here --&gt;    
@@ -875,7 +875,7 @@ Host: http://aggregator.org
         
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-    xmlns:rs=&quot;http://openarchives.org/FIXME&quot;&gt;
+    xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;&gt;
 
     &lt;url&gt;
        &lt;loc&gt;http://www.example.com/res1&lt;/loc&gt;
@@ -903,19 +903,19 @@ Host: http://aggregator.org
 <p class="backtotop">
     <a href="#top">Back to top</a>
 </p>
-        <!-- Resource Access -->
+        <!-- Resource Transfer -->
         <h2>
-            <a name="resource_access_override" id="resource_access_override"></a>Resource Access Override
+            <a name="resource_transfer_override" id="resource_transfer_override"></a>Resource Transfer Override
         </h2>
 
         <p><span class="rs">By default, ResourceSync clients retrieve resources by issuing an HTTP GET request against the URI provided in the <em>url</em> tag. It is possible to override this behavior.</span></p>
 
-        <h3>Resource Access Override in Sitemap Inventory</h3>
+        <h3>Resource Transfer Override in Sitemap Inventory</h3>
 
         <p><span class="rs">blurb</span></p>
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+        xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
         xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
     &lt;url&gt; 
         &lt;loc&gt;http://dbpedia.org/resource/Paris&lt;/loc&gt; 
@@ -928,11 +928,11 @@ Host: http://aggregator.org
 &lt;urlset&gt;
 </pre>        
         
-        <h3>Resource Access Override in Dump</h3>
+        <h3>Resource Transfer Override in Dump</h3>
 
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+        xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
         xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
     &lt;url&gt; 
         &lt;loc&gt;http://dbpedia.org/resource/Paris&lt;/loc&gt; 
@@ -947,11 +947,11 @@ Host: http://aggregator.org
 </pre>        
 
         
-        <h3>Resource Access Override in Changeset</h3>
+        <h3>Resource Transfer Override in Changeset</h3>
         
 <pre>
-&lt;changeset xmlns=&quot;http://openarchives.org/FIXME&quot;
-        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+&lt;changeset xmlns=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
+        xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
         xmlns:sm=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;&gt;
     &lt;sm:url&gt;
         &lt;sm:loc&gt;http://my.oairepo.org/oai&lt;/sm:loc&gt; 
