@@ -32,13 +32,13 @@
             <p>
                 ResourceSync is a synchronization framework for Web resources. It allows a <em>Destination</em> to keep in step with resource changes in a <em>Source</em>.
                 
-                This document describes the XML Schemas for the ResourceSync components.
+                This document describes the XML Schemas for the ResourceSync components and the messages that are exchanged between Source and Destination.
             </p>
             <p>
                 <span class="rs">TODO: enhance introduction</span>
             </p>
             <p>
-                <span class="rs">TODO: explain template</span>
+                <span class="rs">TODO: refer to template?</span>
             </p>
 
             
@@ -550,7 +550,7 @@
 </pre>            
 
             <h3>
-                <a name="change_comm_discovery_pull" id="change_comm_discovery_pull"></a>Change Communication Discovery (PULL)
+                <a name="change_comm_discovery_pull" id="change_comm_discovery_pull"></a>Pulll-based Change Communication Discovery
             </h3>
 
             <p>Pull-based Incremental Synchronization relies on changes being polled by the Destination. Therefore, a Source may provide links to relevant ChangeSets in a Change Memory, which may be hosted by the Source itself or an external Change Memory service. A ChangeSet is identified by a de-referencable URI and contains an entry for each change event that occurred on a Source's resources <strong>after</strong> the creation of the inventory, i.e, the Sitemap serialization. <span class="rs">TODO: pointer to ChangeSet</span></p>
@@ -590,7 +590,7 @@
 </pre>
 
             <h3>
-                <a name="change_comm_discovery_push" id="change_comm_discovery_push"></a>Change Communication Discovery (PUSH)
+                <a name="change_comm_discovery_push" id="change_comm_discovery_push"></a>Push-based Change Communication Discovery
             </h3>
 
             <p>Push-based Incremental Synchronization relies on changes being pushed from the Source to the Destination, likely via an intermediary notification service. Therefore, a Source may provide links to (an) intermediary notification service(s) a Destination can subscribe to.</p>
@@ -710,7 +710,7 @@
         
         <p>A ChangeMemory records change events and allows Destinations to poll for change events. As a response, the Destination receives a ChangeSet, which can contain a (possibly empty) set of change events. Each event has an event identifier, which allows a Destination to identify already known change events.</p>
         
-        <p>If a ChangeMemory is implemented as a RESTful Web application (probably backed by some RDBMS), ChangeSets can be constructed and retrieved dynamically. From a Source's inventory (the Sitemap) a Destination retrieves a link to ChangeSet (e.g., http://example.com/changes/22/diff), which contains all change events that have occurred after retrieving the inventory. In the example below, two events have occurred since the Destination retrieved the Sitemap. The Destination also obtains a link to the "next" ChangeSet, which can contain later change events or be empty if no changes have occurred in between. This mechanism requires that the Source assigns sequential identifiers to change events (rs:eventid), considering their natural temporal order. If a Destination remembers the "next" ChangeSet URI (e.g., http://example.com/changes/22/diff) it retrieves with each ChangeSet response, it can efficiently poll for the changes it hasn't seen yet and incrementally synchronize Resources. Event identifiers can be dereferencable Web resources or sequential numeric values.</p>
+        <p>A <strong>Dynamic ChangeMemory</strong> can be implemented as a RESTful Web application (probably backed by some RDBMS), which allows ChangeSets to be constructed and retrieved dynamically. From a Source's inventory (the Sitemap) a Destination retrieves a link to ChangeSet (e.g., http://example.com/changes/22/diff), which contains all change events that have occurred after retrieving the inventory. In the example below, two events have occurred since the Destination retrieved the Sitemap. The Destination also obtains a link to the "next" ChangeSet, which can contain later change events or be empty if no changes have occurred in between. This mechanism requires that the Source assigns sequential identifiers to change events (rs:eventid), considering their natural temporal order. If a Destination remembers the "next" ChangeSet URI (e.g., http://example.com/changes/22/diff) it retrieves with each ChangeSet response, it can efficiently poll for the changes it hasn't seen yet and incrementally synchronize Resources. Event identifiers can be dereferencable Web resources or sequential numeric values.</p>
 
 <pre>
 &lt;changeset xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
@@ -741,9 +741,8 @@
 &lt;/changeset&gt;
 </pre>   
         
-        <h3>Static Changeset Example (PULL)</h3>
-         
-        <p>ChangeSets can also be...</p>
+        <p>A <strong>Static Change Memory</strong> can serialize ChangeSets into static files and place them into some Web-accessible directory. The Source can use the link in the Sitemap to retrieve the relevant ChangeSet (e.g., changeset2.xml). If ChangeSets files are linked with each other, the Destination can walk through these files entry by entry. A Destination can also retrieve the most recent ("most_recent.xml") changes and walk the list of change events backwards (throughout files) in order to apply the changes as they occurred in the Source.
+        </p>
         
 <pre>
 &lt;changeset xmlns=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
@@ -775,9 +774,11 @@
 &lt;/changeset&gt;
 </pre>        
 
-        <h3>Change Notification via XMPP (PUSH)</h3>
+        <p>In both cases, the Destination must follow an initial Change Memory discovery link from the Inventory and then paginate through ChangeSets by following links to previous or next ChangeSets.</p>
         
-        <p><span class="rs">TODO: blurb</span></p>
+        <h3>Push-based Change Communication (via XMPP)</h3>
+        
+        <p>The Source pushes change events via some intermediary (e.g., XMPP) mechanism to the Destination. The intermediary usually packages change events into some kind of message "envelope".</p>
         
 <pre>
 &lt;message xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
@@ -817,9 +818,9 @@
 &lt;/message&gt;
 </pre>        
 
-        <h3>Change Notification via Simple HTTP Callback (PUSH)</h3>
+        <h3>Push-based Change Communication (via simple HTTP Callback)</h3>
 
-        <p><span class="rs">TODO: add HTTP request/response interaction. blurb</span></p>
+        <p>A Source (or its ChangeMemory) can provide a subscription interface, which allows Destinations to register their HTTP Callback URIs. The Source can push ChangeSets to the Destination on a per-event basis or in pre-defined intervals. This functionality can also be outsourced to some intermediary ChangeMemory. The Source would then ping the ChangeMemory whenever change events occur.</p>
         
 <pre>
 
@@ -859,9 +860,6 @@ Host: aggregator.org
 &lt;/changeset&gt;
 </pre>        
 
-        <p>Another way to implement this: PING! Get me from the change memory!</p>
-
-
         <p class="backtotop">
             <a href="#top">Back to top</a>
         </p>
@@ -872,7 +870,7 @@ Host: aggregator.org
             <a name="dump_packaging" id="dump_packaging"></a>Dump Packaging
         </h2>
         
-        <p><span class="rs">A dump contains all resources and a sitemap manifest file with metadata about these resources.</p>
+        <p>A Dump packages Resources and associated Metadata of a Source and provides an Sitemap as Dump index file (Manifest). The Manifest follows the Inventory's structure but provides an additional pointer (rs:key) to the relative location of the serialized resource within a Dump package (archive).</p>
         
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
@@ -909,11 +907,10 @@ Host: aggregator.org
             <a name="resource_transfer_override" id="resource_transfer_override"></a>Resource Transfer Override
         </h2>
 
-        <p><span class="rs">By default, ResourceSync clients retrieve resources by issuing an HTTP GET request against the URI provided in the <em>url</em> tag. It is possible to override this behavior.</span></p>
-
+        <p>HTTP GET is the default Resource Transfer mechanism used by the Destination to update its holdings to reflect a change in a Resource at the Source. This behavior can be overridden by specifying alternate access URIs or alternate protocols and endpoints.</p>
+        
         <h3>Resource Transfer Override in Sitemap Inventory</h3>
 
-        <p><span class="rs">blurb</span></p>
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
         xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
@@ -992,15 +989,15 @@ Host: aggregator.org
 &lt;/changeset&gt;    
 </pre>        
 
-        <p class="date rs">
-            Last Updated: $Date: 2012-06-04 16:52:10 $
+        <p class="date">
+            Last Updated: 2012-06-05 16:02:50
         </p>
         </div><!-- closes #maincontent -->
         
         <!-- closes #container -->
         <div id="footer">
             <p class="rs">
-                The information on the <a href="http://sitemaps.org/protocol.html">sitemaps.org</a> website is provided under a Creative Commons Attribution-ShareAlike License (version 2.5) license. This page is based on the original as of 2012-03-07 and marked <i>"Last Updated: 27 February 2008"</i>. This page is provided under the <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-ShareAlike License (version 3.0) license</a>.
+This page is provided under the <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-ShareAlike License (version 3.0) license</a>.
             </p>
         </div>
     </body>
