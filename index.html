@@ -20,6 +20,7 @@
             <!-- TOC -->
             <blockquote>
                 <b>Jump to:</b><br />
+                <a href="ädefinitions">Definitions</a><br />
                 <a href="#baseline_sync">Baseline Synchronization</a><br />
                 <a href="#sitemap_discovery">Synchronization Component Discovery</a><br />
                 <a href="#change_communication">Change Communication</a><br />
@@ -29,20 +30,86 @@
             
             <!-- Intro -->
             <p>
-                This document describes the XML Schemas for possible components of a resource synchronization framework.
+                ResourceSync is a synchronization framework for Web resources. It allows a <em>Destination</em> to keep in step with resource changes in a <em>Source</em>.
+                
+                This document describes the XML Schemas for the ResourceSync components.
             </p>
             <p>
-                <span class="rs">TODO: briefly introduce components; provide definitions</span>
+                <span class="rs">TODO: enhance introduction</span>
             </p>
             <p>
-                <span class="rs">TODO: refer to template</span>
+                <span class="rs">TODO: explain template</span>
             </p>
 
+            
+            <!-- DEFINITIONS -->
+            <h2>
+                <a name="definitions" id="definitions"></a>Definitions
+            </h2>
+            <ul>
+            <li><strong>Resource</strong>: an object to be synchronized, a web resource <span class="rs"> identified by a de-referancable URI?</span></li>
+
+            <li><strong>Metadata</strong>: information about Resources such as uri, modification time,
+               checksum, etc. (Not to be confused with Resources that may
+               themselves be metadata about another resource, e.g. a DC record)</li>
+
+            <li><strong>Source</strong>: system with original or master Resource</li>
+
+            <li><strong>Destination</strong>: system to which Resources from the Source will be
+               copied and kept in synchronization</li>
+
+            <li><strong>Pull</strong>: process to get information from Source to Destination initiated
+               by the Destination.</li>
+
+            <li><strong>Push</strong>: process to get information from Source to Destination initiated
+               by the Source.</li>
+            </ul>
+            
+            <p>Three distinct needs considered in scope for the effort:</p>
+            <ol>
+                <li><strong>Baseline Synchronization</strong>: Allows a Destination to perform an
+                   initial synchronization with a Source. (We consider only Pull
+                   methods in scope.)</li>
+               <li><strong>Incremental Synchronization</strong>: Allows a Destination to remain
+                  synchronized with the Source by following changes at the
+                  Source. Two aspects:</li>
+                <ol type="a">
+                    <li><strong>Change Communication</strong>: Allows a Destination to understand that a
+                        Resource has changed; and what the nature of that change event
+                        is.</li>
+                    <li><strong>Resource Transfer</strong>: Allows a Destination to update its holdings to
+                            reflect a change in a Resource at the Source.</li>
+                </ol>
+                <li><strong>Audit</strong>: Allow checking whether a Destination is in synchronization
+                   with a Source. (We consider only Pull methods in scope.)</li>
+            </ol>
+            
+            <p>Additional terminology/concepts:</p>
+
+            <ul>
+                <li><strong>Change Memory</strong>: A record of changes, perhaps as ChangeSets</li>
+
+                <li><strong>Resource Memory</strong>: A record or archive of past Resource states</li>
+
+                <li><strong>ChangeSet</strong>: a set of events used for Change Communication</li>
+
+                <li><strong>Dump</strong>: a package of Resources and associated Metadata</li>
+
+                <li><strong>Pull based Incremental Synchronization</strong>: method of Incremental
+               Synchronization relying on polling by the Destination.</li>
+
+                <li><strong>Push based Incremental Synchronization</strong>: method of Incremental
+               Synchronization relying on changes being pushed from the Source to
+               the Destination, likely via an intermediary.</li>
+            </ul>
+            
             <!-- INVENTORY -->
             <h2>
                 <a name="baseline_sync" id="baseline_sync"></a>Baseline Synchronization
             </h2>
-            <p>ResourceSync uses XML Sitemaps to describe the <em>list of resources</em> (= the INVENTORY) contained in a source.</p>
+            <p>To allow a Destination to perform an initial synchronization with a Source, it needs to retrieve the <strong>list of resources</strong> contained in a source, i.e., the Source's inventory.</p>
+                
+            <p>ResourceSync uses <a href="http://www.sitemaps.org/" title="sitemaps.org - Home">XML Sitemaps</a> to describe the list of resources contained in a source.</p>
             <p>
                 The Sitemap protocol format consists of XML tags. All data values in a Sitemap must be <a href="http://www.sitemaps.org/protocol.html#escaping">entity-escaped</a>. The file itself must be UTF-8 encoded.
             </p>
