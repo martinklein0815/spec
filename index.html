@@ -704,24 +704,25 @@
             <a name="change_communication" id="change_communication"></a>Change Communication
         </h2>
 
-        <p>Changesets are identified by dereferencable URIs. A changeset serialization links to itself (self)
-            and to the next changeset (next). <span class="rs">specify order?</span></p>
+        <p>Change Communication allows a Destination to understand that a Resource has changed in the Source; and what the nature of that change event is. Change events can either be polled from a Change Memory by a Destination or pushed from a Source to a Destination via some intermediary notification mechanism.</p>
             
-        <h3>Dynamically Generated Changeset Example (PULL)</h3>
+        <h3>Pull-based Change Communication</h3>
         
-        <p><span class="rs">TODO: blurb</span></p>
+        <p>A ChangeMemory records change events and allows Destinations to poll for change events. As a response, the Destination receives a ChangeSet, which can contain a (possibly empty) set of change events. Each event has an event identifier, which allows a Destination to identify already known change events.</p>
+        
+        <p>If a ChangeMemory is implemented as a RESTful Web application (probably backed by some RDBMS), ChangeSets can be constructed and retrieved dynamically. From a Source's inventory (the Sitemap) a Destination retrieves a link to ChangeSet (e.g., http://example.com/changes/22/diff), which contains all change events that have occurred after retrieving the inventory. In the example below, two events have occurred since the Destination retrieved the Sitemap. The Destination also obtains a link to the "next" ChangeSet, which can contain later change events or be empty if no changes have occurred in between. This mechanism requires that the Source assigns sequential identifiers to change events (rs:eventid), considering their natural temporal order. If a Destination remembers the "next" ChangeSet URI (e.g., http://example.com/changes/22/diff) it retrieves with each ChangeSet response, it can efficiently poll for the changes it hasn't seen yet and incrementally synchronize Resources. Event identifiers can be dereferencable Web resources or sequential numeric values.</p>
 
 <pre>
-&lt;changeset xmlns=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
-        xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
-        xmlns:sm=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-        xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
+&lt;changeset xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
+    xmlns:sm=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
+    xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;
+    xmlns:dc=&quot;http://purl.org/dc/terms/&quot;&gt;
 
-<span class="rs">    &lt;atom:link href=&quot;http://example.com/changes/22/diff&quot; rel=&quot;self rs:changeset&quot;/&gt;
-    &lt;atom:link href=&quot;http://example.com/changes/24/diff&quot; rel=&quot;next rs:changeset&quot;/&gt;</span>
+<span class="rs">    &lt;atom:link href=&quot;http://example.com/changes/20/diff&quot; rel=&quot;self rs:changeset&quot;/&gt;
+    &lt;atom:link href=&quot;http://example.com/changes/22/diff&quot; rel=&quot;next rs:changeset&quot;/&gt;</span>
 
     &lt;sm:url&gt;
-<span class="rs">       &lt;rs:eventid&gt;http://example.com/changes/22&lt;/rs:eventid&gt;</span>
+<span class="rs">       &lt;rs:eventid&gt;http://example.com/changes/21&lt;/rs:eventid&gt;</span>
        &lt;sm:loc&gt;http://www.example.com/res1&lt;/sm:loc&gt;
        &lt;sm:lastmod&gt;2012-05-30&lt;/sm:lastmod&gt;
        &lt;rs:tag&gt;frogs&lt;/rs:tag&gt;      
@@ -730,7 +731,7 @@
        &lt;dc:publisher&gt;http://example.com&lt;/dc:publisher&gt; &lt;!-- optional --&gt;</span>
     &lt;/sm:url&gt;
     &lt;sm:url&gt;
-<span class="rs">       &lt;rs:eventid&gt;http://example.com/changes/24&lt;/rs:eventid&gt;</span>     
+<span class="rs">       &lt;rs:eventid&gt;http://example.com/changes/22&lt;/rs:eventid&gt;</span>     
        &lt;sm:loc&gt;http://www.example.com/res4&lt;/sm:loc&gt;
        &lt;sm:lastmod&gt;2012-05-31&lt;/sm:lastmod&gt;
        &lt;rs:tag&gt;elephants&lt;/rs:tag&gt;
@@ -742,7 +743,7 @@
         
         <h3>Static Changeset Example (PULL)</h3>
          
-        <p><span class="rs">TODO: blurb</span></p>
+        <p>ChangeSets can also be...</p>
         
 <pre>
 &lt;changeset xmlns=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
