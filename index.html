@@ -23,6 +23,8 @@
                 <a href="#baseline_sync">Baseline Synchronization</a><br />
                 <a href="#sitemap_discovery">Synchronization Component Discovery</a><br />
                 <a href="#change_communication">Change Communication</a><br />
+                <a href="#dump_packaging">Dump Packaging</a><br />
+                <a href="#resource_access_override">Resource Access Override</a><br />
             </blockquote>
             
             <!-- Intro -->
@@ -32,7 +34,9 @@
             <p>
                 <span class="rs">TODO: briefly introduce components; provide definitions</span>
             </p>
-
+            <p>
+                <span class="rs">TODO: refer to template</span>
+            </p>
 
             <!-- INVENTORY -->
             <h2>
@@ -636,9 +640,9 @@
         <p>Changesets are identified by dereferencable URIs. A changeset serialization links to itself (self)
             and to the next changeset (next). <span class="rs">specify order?</span></p>
             
-        <h3>Dynamically Generated Changeset Example</h3>
+        <h3>Dynamically Generated Changeset Example (PULL)</h3>
         
-        <p><span class="rs">blurb</span></p>
+        <p><span class="rs">TODO: blurb</span></p>
 
 <pre>
 &lt;changeset xmlns=&quot;http://openarchives.org/FIXME&quot;
@@ -669,8 +673,257 @@
 &lt;/changeset&gt;
 </pre>   
         
-         <h3>Static Changeset Example</h3>
+        <h3>Static Changeset Example (PULL)</h3>
+         
+        <p><span class="rs">TODO: blurb</span></p>
         
+<pre>
+&lt;changeset xmlns=&quot;http://openarchives.org/FIXME&quot;
+        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+        xmlns:sm=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
+        xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
+
+<span class="rs">    &lt;atom:link href=&quot;http://example.com/changes/changeset2.xml&quot; rel=&quot;self rs:changeset&quot;/&gt;
+    &lt;atom:link href=&quot;http://example.com/changes/changeset1.xml&quot; rel=&quot;prev rs:changeset&quot;/&gt;
+    &lt;atom:link href=&quot;http://example.com/changes/most_recent.xml&quot; rel=&quot;last rs:changeset&quot;/&gt;</span>
+
+    &lt;sm:url&gt;
+<span class="rs">       &lt;rs:eventid&gt;4353dfsgesn431&lt;/rs:eventid&gt;</span>
+       &lt;sm:loc&gt;http://www.example.com/res1&lt;/sm:loc&gt;
+       &lt;sm:lastmod&gt;2012-05-30&lt;/sm:lastmod&gt;
+       &lt;rs:tag&gt;frogs&lt;/rs:tag&gt;      
+       &lt;rs:tag&gt;crocodiles&lt;/rs:tag&gt;
+<span class="rs">       &lt;rs:eventtype&gt;updated&lt;/rs:eventtype&gt;</span>
+<span class="rs">       &lt;dc:publisher&gt;http://example.com&lt;/dc:publisher&gt; &lt;!-- optional --&gt;</span>
+    &lt;/sm:url&gt;
+    &lt;sm:url&gt;
+<span class="rs">       &lt;rs:eventid&gt;sadfn234sfn3f&lt;/rs:eventid&gt;</span>
+       &lt;sm:loc&gt;http://www.example.com/res4&lt;/sm:loc&gt;
+       &lt;sm:lastmod&gt;2012-05-31&lt;/sm:lastmod&gt;
+       &lt;rs:tag&gt;elephants&lt;/rs:tag&gt;
+<span class="rs">       &lt;rs:eventtype&gt;created&lt;/rs:eventtype&gt;</span>
+<span class="rs">       &lt;dc:publisher&gt;http://example.com&lt;/dc:publisher&gt; &lt;!-- optional --&gt;</span>
+    &lt;/sm:url&gt;
+&lt;/changeset&gt;
+</pre>        
+
+        <h3>Change Notification via XMPP (PUSH)</h3>
+        
+        <p><span class="rs">TODO: blurb</span></p>
+        
+<pre>
+&lt;message xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+    xmlns:sm=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;&gt;
+    &lt;event&gt;
+        &lt;items&gt;
+            &lt;item id=&quot;12234&quot;&gt;
+                &lt;stanza&gt;
+                    &lt;!-- payload --&gt;
+                    &lt;sm:url&gt;
+                        &lt;rs:eventid&gt;4353dfsgesn431&lt;/rs:eventid&gt;
+                        &lt;sm:loc&gt;http://www.example.com/res1&lt;/sm:loc&gt;
+                        &lt;sm:lastmod&gt;2012-05-30&lt;/sm:lastmod&gt;
+                        &lt;rs:tag&gt;frogs&lt;/rs:tag&gt;      
+                        &lt;rs:tag&gt;crocodiles&lt;/rs:tag&gt;
+                        &lt;rs:eventtype&gt;updated&lt;/rs:eventtype&gt;
+                        &lt;dc:publisher&gt;http://example.com&lt;/dc:publisher&gt; &lt;!-- optional --&gt;
+                       &lt;!-- publisher info generates a level trust by going after its sitemap and check if notification link is there --&gt;
+                    &lt;/sm:url&gt;
+                &lt;/stanza&gt;
+            &lt;/item&gt;
+            &lt;item id=&quot;34456&quot;&gt;
+                &lt;stanza&gt;
+                &lt;!-- payload --&gt;
+                    &lt;sm:url&gt;
+                       &lt;rs:eventid&gt;sadfn234sfn3f&lt;/rs:eventid&gt;        
+                       &lt;sm:loc&gt;http://www.example.com/res4&lt;/sm:loc&gt;
+                       &lt;sm:lastmod&gt;2012-05-31&lt;/sm:lastmod&gt;
+                       &lt;rs:tag&gt;elephants&lt;/rs:tag&gt;
+                       &lt;rs:eventtype&gt;created&lt;/rs:eventtype&gt;
+                       &lt;dc:publisher&gt;http://example.com&lt;/dc:publisher&gt; &lt;!-- optional --&gt;
+                    &lt;/sm:url&gt;
+                &lt;/stanza&gt;
+            &lt;/item&gt;
+        &lt;/item&gt;
+    &lt;/event&gt;
+&lt;/message&gt;
+</pre>        
+
+        <h3>Change Notification via Simple HTTP Callback (PUSH)</h3>
+
+        <p><span class="rs">TODO: add HTTP request/response interaction. blurb</span></p>
+        
+<pre>
+
+>> Subscription Request <<
+POST /subscribe HTTP/1.1
+Host: example.com
+
+callbackURI=http://aggregator.org/callback
+
+
+>> Change Notification <<
+POST /callback HTTP/1.1
+Host: http://aggregator.org
+
+&lt;changeset xmlns=&quot;http://openarchives.org/FIXME&quot;
+        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+        xmlns:sm=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;&gt;
+
+    &lt;!-- don&#x27;t put any atom links here --&gt;    
+    &lt;sm:url&gt;
+       &lt;rs:eventid&gt;4353dfsgesn431&lt;/rs:eventid&gt;
+       &lt;sm:loc&gt;http://www.example.com/res1&lt;/sm:loc&gt;
+       &lt;sm:lastmod&gt;2012-05-30&lt;/sm:lastmod&gt;
+       &lt;rs:tag&gt;frogs&lt;/rs:tag&gt;      
+       &lt;rs:tag&gt;crocodiles&lt;/rs:tag&gt;
+       &lt;rs:eventtype&gt;updated&lt;/rs:eventtype&gt;
+       &lt;dc:publisher&gt;http://example.com&lt;/dc:publisher&gt; &lt;!-- optional --&gt;
+    &lt;/sm:url&gt;
+    &lt;sm:url&gt;
+       &lt;rs:eventid&gt;sadfn234sfn3f&lt;/rs:eventid&gt;        
+       &lt;sm:loc&gt;http://www.example.com/res4&lt;/sm:loc&gt;
+       &lt;sm:lastmod&gt;2012-05-31&lt;/sm:lastmod&gt;
+       &lt;rs:tag&gt;elephants&lt;/rs:tag&gt;
+       &lt;rs:eventtype&gt;created&lt;/rs:eventtype&gt;
+       &lt;dc:publisher&gt;http://example.com&lt;/dc:publisher&gt; &lt;!-- optional --&gt;
+    &lt;/sm:url&gt;
+&lt;/changeset&gt;
+</pre>        
+
+        <p>Another way to implement this: PING! Get me from the change memory!</p>
+
+
+        <p class="backtotop">
+            <a href="#top">Back to top</a>
+        </p>
+        
+        
+        <!-- DUMP PACKAGING -->
+        <h2>
+            <a name="dump_packaging" id="dump_packaging"></a>Dump Packaging
+        </h2>
+        
+        <p><span class="rs">A dump contains all resources and a sitemap manifest file with metadata about these resources.</p>
+        
+<pre>
+&lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
+    xmlns:rs=&quot;http://openarchives.org/FIXME&quot;&gt;
+
+    &lt;url&gt;
+       &lt;loc&gt;http://www.example.com/res1&lt;/loc&gt;
+       &lt;lastmod&gt;2005-01-01&lt;/lastmod&gt;
+       &lt;rs:tag&gt;frogs&lt;/rs:tag&gt;      
+       &lt;rs:tag&gt;crocodiles&lt;/rs:tag&gt;
+<span class="rs">       &lt;rs:key&gt;./resources/res1.txt&lt;/rs:key&gt;</span>
+    &lt;/url&gt;
+    &lt;url&gt;
+       &lt;loc&gt;http://www.example.com/res2&lt;/loc&gt;
+       &lt;lastmod&gt;2006-02-21T18:00:15+00:00&lt;/lastmod&gt;
+       &lt;rs:tag&gt;fish&lt;/rs:tag&gt;
+<span class="rs">       &lt;rs:key&gt;./resources/res2.txt&lt;/rs:key&gt;</span>
+    &lt;/url&gt;
+    &lt;url&gt;
+       &lt;loc&gt;http://www.example.com/res3&lt;/loc&gt;
+       &lt;lastmod&gt;2007-03-23T18:00:15+00:00&lt;/lastmod&gt;
+       &lt;rs:tag&gt;humans&lt;/rs:tag&gt;
+<span class="rs">       &lt;rs:key&gt;./resources/res3.txt&lt;/rs:key&gt;</span>
+    &lt;/url&gt;
+
+&lt;/urlset&gt;
+    
+</pre>
+<p class="backtotop">
+    <a href="#top">Back to top</a>
+</p>
+        <!-- Resource Access -->
+        <h2>
+            <a name="resource_access_override" id="resource_access_override"></a>Resource Access Override
+        </h2>
+
+        <p><span class="rs">By default, ResourceSync clients retrieve resources by issuing an HTTP GET request against the URI provided in the <em>url</em> tag. It is possible to override this behavior.</span></p>
+
+        <h3>Resource Access Override in Sitemap Inventory</h3>
+
+        <p><span class="rs">blurb</span></p>
+<pre>
+&lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
+        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+        xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
+    &lt;url&gt; 
+        &lt;loc&gt;http://dbpedia.org/resource/Paris&lt;/loc&gt; 
+        &lt;lastmod&gt;2012-05-08T19:59:57Z&lt;/lastmod&gt; 
+        &lt;rs:eventtype&gt;updated&lt;/rs:eventtype&gt;
+<span class="rs">        &lt;rs:access&gt;
+            &lt;atom:link rel=&quot;alternate&quot;&gt;http://dbpedia.org/data/Paris.rdf&lt;/atom:link&gt;            
+        &lt;/rs:access&gt;</span>
+    &lt;/url&gt;
+&lt;urlset&gt;
+</pre>        
+        
+        <h3>Resource Access Override in Dump</h3>
+
+<pre>
+&lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
+        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+        xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
+    &lt;url&gt; 
+        &lt;loc&gt;http://dbpedia.org/resource/Paris&lt;/loc&gt; 
+        &lt;lastmod&gt;2012-05-08T19:59:57Z&lt;/lastmod&gt; 
+        &lt;rs:eventtype&gt;updated&lt;/rs:eventtype&gt;
+<span class="rs">        &lt;rs:access&gt;
+            &lt;atom:link rel=&quot;alternate&quot;&gt;http://dbpedia.org/data/Paris.rdf&lt;/atom:link&gt;            
+        &lt;/rs:access&gt;
+        &lt;rs:key&gt;./data/Paris.rdf&lt;/rs:key&gt;</span>
+    &lt;/url&gt;
+&lt;urlset&gt;
+</pre>        
+
+        
+        <h3>Resource Access Override in Changeset</h3>
+        
+<pre>
+&lt;changeset xmlns=&quot;http://openarchives.org/FIXME&quot;
+        xmlns:rs=&quot;http://openarchives.org/FIXME&quot;
+        xmlns:sm=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;&gt;
+    &lt;sm:url&gt;
+        &lt;sm:loc&gt;http://my.oairepo.org/oai&lt;/sm:loc&gt; 
+        &lt;sm:lastmod&gt;2012-05-08T19:59:57Z&lt;/sm:lastmod&gt; 
+        &lt;rs:eventtype&gt;updated&lt;/rs:eventtype&gt; 
+<span class="rs">        &lt;rs:access&gt; 
+          &lt;atom:link rel=&quot;endpoint&quot;&gt;http://my.oairepo.org/oai&lt;/atom:link&gt; 
+          &lt;atom:link rel=&quot;protocol&quot;&gt;http://www.openarchives.org/OAI/ 
+            openarchivesprotocol.html&lt;/atom:link&gt; 
+        &lt;/rs:access&gt;</span>
+    &lt;/sm:url&gt;
+    &lt;sm:url&gt;
+        &lt;sm:loc&gt;http://dbpedia.org/resource/Paris&lt;/sm:loc&gt; 
+        &lt;sm:lastmod&gt;2010-05-08T19:59:57Z&lt;/sm:lastmod&gt; 
+        &lt;rs:eventtype&gt;updated&lt;/rs:eventtype&gt;
+<span class="rs">        &lt;rs:access&gt;
+            &lt;atom:link rel=&quot;alternate&quot;&gt;http://dbpedia.org/data/Paris.rdf&lt;/atom:link&gt;  
+            &lt;atom:link rel=&quot;alternate&quot;&gt;http://dbpedia.org/data/Paris.nt&lt;/atom:link&gt; 
+        &lt;/rs:access&gt;</span>
+    &lt;/sm:url&gt;
+    &lt;sm:url&gt;
+        &lt;sm:loc&gt;http://flickr.org/photos/large.jp&lt;/sm:loc&gt; 
+        &lt;sm:lastmod&gt;2009-05-08T19:59:57Z&lt;/sm:lastmod&gt; 
+        &lt;rs:eventtype&gt;updated&lt;/rs:eventtype&gt; 
+<span class="rs">        &lt;rs:access&gt; 
+          &lt;atom:link rel=&quot;alternate&quot;&gt;http://farm1.flickr.com/user1/photos/asdfaslj.jp&lt;/atom:link&gt; 
+        &lt;/rs:access&gt;</span>
+    &lt;/sm:url&gt;
+    &lt;sm:url&gt;
+        &lt;sm:loc&gt;http://images.org/photos/image.jp&lt;/sm:loc&gt; 
+        &lt;sm:lastmod&gt;2008-05-08T19:59:57Z&lt;/sm:lastmod&gt; 
+        &lt;rs:eventtype&gt;updated&lt;/rs:eventtype&gt; 
+<span class="rs">        &lt;rs:access&gt; 
+          &lt;atom:link rel=&quot;alternate&quot;&gt;http://user1@http://images.org/photos/image.jp&lt;/atom:link&gt; 
+        &lt;/rs:access&gt;</span>
+    &lt;/sm:url&gt;
+&lt;/changeset&gt;    
+</pre>        
+
         <p class="date rs">
             Last Updated: $Date: 2012-06-04 16:52:10 $
         </p>
