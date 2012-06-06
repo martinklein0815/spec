@@ -34,13 +34,10 @@
                 
                 This document describes the XML Schemas for the ResourceSync components and the messages that are exchanged between Source and Destination.
             </p>
-            <p>
-                <span class="rs">TODO: enhance introduction</span>
-            </p>
-            <p>
-                <span class="rs">TODO: refer to template?</span>
-            </p>
-
+            <br />
+            <br />
+            <br />
+            <br />
             
             <!-- DEFINITIONS -->
             <h2>
@@ -526,9 +523,9 @@
         xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 <span class="rs">
     &lt;!-- the source produces resource dumps --&gt;
-    &lt;atom:link href=&quot;http://example.com/dump/dump1.tar.gz&quot; rel=&quot;rs:dump&quot; rs:tag=&quot;crocodiles&quot; rs:tag=&quot;frogs&quot;/&gt;
-    &lt;atom:link href=&quot;http://example.com/dump/dump2.tar.gz&quot; rel=&quot;rs:dump&quot; rs:tag=&quot;fish&quot;/&gt;
-    &lt;atom:link href=&quot;http://example.com/dump/dump2.tar.gz&quot; rel=&quot;rs:dump&quot; rs:tag=&quot;humans&quot;/&gt;
+    &lt;atom:link href=&quot;http://example.com/dump/dump1.tar.gz&quot; rel=&quot;rs:dump&quot; rs:tags=&quot;crocodiles frogs&quot;/&gt;
+    &lt;atom:link href=&quot;http://example.com/dump/dump2.tar.gz&quot; rel=&quot;rs:dump&quot; rs:tags=&quot;fish&quot;/&gt;
+    &lt;atom:link href=&quot;http://example.com/dump/dump2.tar.gz&quot; rel=&quot;rs:dump&quot; rs:tags=&quot;humans&quot;/&gt;
 </span>
     &lt;url&gt;
        &lt;loc&gt;http://www.example.com/res1&lt;/loc&gt;
@@ -547,13 +544,17 @@
        &lt;rs:tag&gt;humans&lt;/rs:tag&gt;
     &lt;/url&gt;
 &lt;/urlset&gt;
-</pre>            
+</pre>
+
+<p class="todo">
+   Open Issue: Should we conflate tags into a single rs:tags element? 
+</p>
 
             <h3>
                 <a name="change_comm_discovery_pull" id="change_comm_discovery_pull"></a>Pull-based Change Communication Discovery
             </h3>
 
-            <p>Pull-based Incremental Synchronization relies on changes being polled by the Destination. Therefore, a Source may provide links to relevant ChangeSets in a Change Memory, which may be hosted by the Source itself or an external Change Memory service. A ChangeSet is identified by a de-referencable URI and contains an entry for each change event that occurred on a Source's resources <strong>after</strong> the creation of the inventory, i.e, the Sitemap serialization. <span class="rs">TODO: pointer to ChangeSet</span></p>
+            <p>Pull-based Incremental Synchronization relies on changes being polled by the Destination. Therefore, a Source may provide links to relevant ChangeSets in a Change Memory, which may be hosted by the Source itself or an external Change Memory service. A ChangeSet is identified by a de-referencable URI and contains an entry for each change event that occurred on a Source's resources <strong>after</strong> the creation of the inventory, i.e, the Sitemap serialization.</p>
             
             <p>ChangeSets can be static dumps (e.g., files on a Web server)...</p>
 
@@ -602,7 +603,7 @@
     xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 
 <span class="rs">    &lt;!-- The intermediary notification service --&gt; 
-    &lt;atom:link href=&quot;xmpp:pubsub.example.org/&quot; rel=&quot;rs:notification&quot; rs:profile=&quot;&lt;spec-uri&gt;&quot; rs:pubsubnode=&quot;All&quot;/&gt;</span>
+    &lt;atom:link href=&quot;xmpp:pubsub.example.org/&quot; rel=&quot;rs:notification&quot; rs:profile=&quot;&lt;http://xmpp.org/extensions/xep-0060.html&gt;&quot; rs:pubsubnode=&quot;All&quot;/&gt;</span>
 
     &lt;url&gt;...&lt;/url&gt;
 
@@ -619,7 +620,7 @@
     xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 
 <span class="rs">   &lt;!-- The used change notification transport protocol --&gt; 
-   &lt;atom:link href=&quot;xmpp:pubsub.example.org/&quot; rel=&quot;rs:notification&quot; rs:profile=&quot;&lt;spec-uri&gt;&quot; rs:pubsubnode=&quot;All&quot;/&gt;
+   &lt;atom:link href=&quot;xmpp:pubsub.example.org/&quot; rel=&quot;rs:notification&quot; rs:profile=&quot;&lt;http://xmpp.org/extensions/xep-0060.html&gt;&quot; rs:pubsubnode=&quot;All&quot;/&gt;
    &lt;!-- The change memory for polling changes --&gt;
    &lt;atom:link href=&quot;http://example.com/changes/changeset.xml&quot; rel=&quot;rs:changeset&quot;/&gt;</span>
 
@@ -776,6 +777,8 @@
 
         <p>In both cases, the Destination must follow an initial Change Memory discovery link from the Inventory and then paginate through ChangeSets by following links to previous or next ChangeSets.</p>
         
+        <p><span class="todo">Should ChangeSets allow component discovery or should only the Inventory contain discovery links?</span></p>
+        
         <h3>Push-based Change Communication (via XMPP)</h3>
         
         <p>The Source pushes change events via some intermediary (e.g., XMPP) mechanism to the Destination. The intermediary usually packages change events into some kind of message "envelope".</p>
@@ -835,8 +838,7 @@ callbackURI=http://aggregator.org/callback
 POST /callback HTTP/1.1
 Host: aggregator.org
 
-&lt;changeset xmlns=&quot;http://resourcesync.org/ns/&quot;
-        xmlns:rs=&quot;http://resourcesync.org/ns/&quot;
+&lt;rs:changeset xmlns:rs=&quot;http://resourcesync.org/ns/&quot;
         xmlns:sm=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;&gt;
 
     &lt;!-- don&#x27;t put any atom links here --&gt;    
@@ -857,7 +859,7 @@ Host: aggregator.org
        &lt;rs:eventtype&gt;created&lt;/rs:eventtype&gt;
        &lt;dc:publisher&gt;http://example.com&lt;/dc:publisher&gt; &lt;!-- optional --&gt;
     &lt;/sm:url&gt;
-&lt;/changeset&gt;
+&lt;/rs:changeset&gt;
 </pre>        
 
         <p class="backtotop">
