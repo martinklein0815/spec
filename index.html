@@ -30,7 +30,7 @@
             
             <!-- Intro -->
             <p>
-                ResourceSync is a synchronization framework for Web resources. It allows a <em>Destination</em> to keep in step with resource changes in a <em>Source</em>.
+                ResourceSync is a synchronization framework for Web resources. It allows a <em>Destination</em> to keep in sync with resource changes in a <em>Source</em>.
                 
                 This document describes the XML Schemas for the ResourceSync components and the messages that are exchanged between Source and Destination.
             </p>
@@ -124,7 +124,7 @@
             </ul>
             
             <p>
-                Elements introduced for ResourceSync are in the <code class="rs">http://resourcesync.org/schemas/resync/0.9</code> namespace. The <code class="rs">rs</code> prefix is used to indicate that XML tags are defined in that namespace.
+                Elements introduced for ResourceSync are in the <code class="rs">http://resourcesync.org/ns/</code> namespace. The <code class="rs">rs</code> prefix is used to indicate that XML tags are defined in that namespace.
             </p>
 
             <h3>
@@ -148,12 +148,12 @@
             <pre>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;<a href="#urlsetdef">urlset</a> xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        <span class="rs">xmlns:rs="http://resourcesync.org/schemas/resync/0.9"</span>&gt;
+        <span class="rs">xmlns:rs="http://resourcesync.org/ns/"</span>&gt;
    &lt;<a href="#urldef">url</a>&gt;
       &lt;<a href="#locdef">loc</a>&gt;http://www.example.com/res1&lt;/loc&gt;
       &lt;<a href="#lastmoddef">lastmod</a>&gt;2005-01-01&lt;/lastmod&gt;
       <em>&lt;<span class="rs"><a href="#sizedef">rs:size</a>&gt;5746&lt;/rs:size&gt;</span>
-      &lt;<span class="rs"><a href="#md5def">rs:md5</a>&gt;0.8&lt;/rs:md5&gt;</span>
+      &lt;<span class="rs"><a href="#md5def">rs:md5</a>&gt;asdfb213l123br1234Pulll-based Change Communication Discovery&lt;/rs:md5&gt;</span>
       &lt;<span class="rs"><a href="#tagdef">rs:tag</a>&gt;frogs&lt;/rs:tag&gt;</span>
       &lt;<a href="#changefreqdef">changefreq</a>&gt;monthly&lt;/changefreq&gt;
       &lt;<a href="#prioritydef">priority</a>&gt;0.8&lt;/priority&gt;</em>
@@ -338,7 +338,7 @@
 <pre>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;<a href="#urlsetdef">urlset</a> xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        <span class="rs">xmlns:rs="http://resourcesync.org/schemas/resync/0.9"</span>&gt;
+        <span class="rs">xmlns:rs="http://resourcesync.org/ns/"</span>&gt;
    &lt;<a href="#urldef">url</a>&gt;
       &lt;<a href="#locdef">loc</a>&gt;http://www.example.com/res1&lt;/loc&gt;
       &lt;<a href="#lastmoddef">lastmod</a>&gt;2005-01-01&lt;/lastmod&gt;
@@ -397,7 +397,7 @@
             <pre>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;<a href="#sitemapIndex_sitemapindex">sitemapindex</a> xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        <span class="rs">xmlns:rs="http://resourcesync.org/schemas/resync/0.9"</span>&gt;
+        <span class="rs">xmlns:rs="http://resourcesync.org/ns/"</span>&gt;
    &lt;<a href="#sitemapIndex_sitemap">sitemap</a>&gt;
       &lt;<a href="#sitemapIndex_loc">loc</a>&gt;http://www.example.com/sitemap1.xml.gz&lt;/loc&gt;
       &lt;<a href="#sitemapIndex_lastmod">lastmod</a>&gt;2012-10-01T18:23:17+00:00&lt;/lastmod&gt;
@@ -522,7 +522,7 @@
 
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-        xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
+        xmlns:rs=&quot;http://resourcesync.org/ns/&quot;
         xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 <span class="rs">
     &lt;!-- the source produces resource dumps --&gt;
@@ -550,7 +550,7 @@
 </pre>            
 
             <h3>
-                <a name="change_comm_discovery_pull" id="change_comm_discovery_pull"></a>Pulll-based Change Communication Discovery
+                <a name="change_comm_discovery_pull" id="change_comm_discovery_pull"></a>Pull-based Change Communication Discovery
             </h3>
 
             <p>Pull-based Incremental Synchronization relies on changes being polled by the Destination. Therefore, a Source may provide links to relevant ChangeSets in a Change Memory, which may be hosted by the Source itself or an external Change Memory service. A ChangeSet is identified by a de-referencable URI and contains an entry for each change event that occurred on a Source's resources <strong>after</strong> the creation of the inventory, i.e, the Sitemap serialization. <span class="rs">TODO: pointer to ChangeSet</span></p>
@@ -559,7 +559,7 @@
 
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-    xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
+    xmlns:rs=&quot;http://resourcesync.org/ns/&quot;
     xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 
 <span class="rs">   &lt;!-- Static changeset file --&gt;
@@ -576,7 +576,7 @@
 
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-    xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
+    xmlns:rs=&quot;http://resourcesync.org/ns/&quot;
     xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 
 <span class="rs">   &lt;!-- Dynamically generated changeset  --&gt;
@@ -598,7 +598,7 @@
 
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-    xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
+    xmlns:rs=&quot;http://resourcesync.org/ns/&quot;
     xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 
 <span class="rs">    &lt;!-- The intermediary notification service --&gt; 
@@ -615,7 +615,7 @@
 
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-    xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
+    xmlns:rs=&quot;http://resourcesync.org/ns/&quot;
     xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 
 <span class="rs">   &lt;!-- The used change notification transport protocol --&gt; 
@@ -638,7 +638,7 @@
             
 <pre>            
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-    xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
+    xmlns:rs=&quot;http://resourcesync.org/ns/&quot;
     xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 
     &lt;url&gt;
@@ -671,7 +671,7 @@
             <p>A Source can indicate the availability of archived or past resource states by providing Resource version URIs (e.g., as in Wikipedia).</p>
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-        xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;&gt;
+        xmlns:rs=&quot;http://resourcesync.org/ns/&quot;&gt;
 
     &lt;url&gt;
        &lt;loc&gt;http://www.example.com/res1&lt;/loc&gt;
@@ -713,7 +713,7 @@
         <p>A <strong>Dynamic ChangeMemory</strong> can be implemented as a RESTful Web application (probably backed by some RDBMS), which allows ChangeSets to be constructed and retrieved dynamically. From a Source's inventory (the Sitemap) a Destination retrieves a link to ChangeSet (e.g., http://example.com/changes/22/diff), which contains all change events that have occurred after retrieving the inventory. In the example below, two events have occurred since the Destination retrieved the Sitemap. The Destination also obtains a link to the "next" ChangeSet, which can contain later change events or be empty if no changes have occurred in between. This mechanism requires that the Source assigns sequential identifiers to change events (rs:eventid), considering their natural temporal order. If a Destination remembers the "next" ChangeSet URI (e.g., http://example.com/changes/22/diff) it retrieves with each ChangeSet response, it can efficiently poll for the changes it hasn't seen yet and incrementally synchronize Resources. Event identifiers can be dereferencable Web resources or sequential numeric values.</p>
 
 <pre>
-&lt;changeset xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
+&lt;changeset xmlns:rs=&quot;http://resourcesync.org/ns/&quot;
     xmlns:sm=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
     xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;
     xmlns:dc=&quot;http://purl.org/dc/terms/&quot;&gt;
@@ -745,8 +745,8 @@
         </p>
         
 <pre>
-&lt;changeset xmlns=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
-        xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
+&lt;changeset xmlns=&quot;http://resourcesync.org/ns/&quot;
+        xmlns:rs=&quot;http://resourcesync.org/ns/&quot;
         xmlns:sm=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
         xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
 
@@ -781,7 +781,7 @@
         <p>The Source pushes change events via some intermediary (e.g., XMPP) mechanism to the Destination. The intermediary usually packages change events into some kind of message "envelope".</p>
         
 <pre>
-&lt;message xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
+&lt;message xmlns:rs=&quot;http://resourcesync.org/ns/&quot;
     xmlns:sm=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;&gt;
     &lt;event&gt;
         &lt;items&gt;
@@ -835,8 +835,8 @@ callbackURI=http://aggregator.org/callback
 POST /callback HTTP/1.1
 Host: aggregator.org
 
-&lt;changeset xmlns=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
-        xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
+&lt;changeset xmlns=&quot;http://resourcesync.org/ns/&quot;
+        xmlns:rs=&quot;http://resourcesync.org/ns/&quot;
         xmlns:sm=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;&gt;
 
     &lt;!-- don&#x27;t put any atom links here --&gt;    
@@ -870,15 +870,17 @@ Host: aggregator.org
             <a name="dump_packaging" id="dump_packaging"></a>Dump Packaging
         </h2>
         
-        <p>A Dump packages Resources and associated Metadata of a Source and provides an Sitemap as Dump index file (Manifest). The Manifest follows the Inventory's structure but provides an additional pointer (rs:key) to the relative location of the serialized resource within a Dump package (archive).</p>
+        <p>A Dump packages Resources and associated Metadata of a Source and provides an Sitemap as Dump index file (Manifest). The Manifest (manifest.xml) follows the Inventory's structure but provides an additional pointer (rs:key) to the relative location of the serialized resource within a Dump package (archive).</p>
         
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-    xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;&gt;
+    xmlns:rs=&quot;http://resourcesync.org/ns/&quot;&gt;
 
     &lt;url&gt;
        &lt;loc&gt;http://www.example.com/res1&lt;/loc&gt;
        &lt;lastmod&gt;2005-01-01&lt;/lastmod&gt;
+       &lt;size&gt;5746&lt;/rs:size&gt;
+       &lt;md5&gt;asdfhkk23blasdfb3223&lt;/rs:md5&gt;
        &lt;rs:tag&gt;frogs&lt;/rs:tag&gt;      
        &lt;rs:tag&gt;crocodiles&lt;/rs:tag&gt;
 <span class="rs">       &lt;rs:key&gt;./resources/res1.txt&lt;/rs:key&gt;</span>
@@ -886,12 +888,16 @@ Host: aggregator.org
     &lt;url&gt;
        &lt;loc&gt;http://www.example.com/res2&lt;/loc&gt;
        &lt;lastmod&gt;2006-02-21T18:00:15+00:00&lt;/lastmod&gt;
+       &lt;size&gt;1123&lt;/rs:size&gt;
+       &lt;md5&gt;asdvb3223fvsn1234l34&lt;/rs:md5&gt;
        &lt;rs:tag&gt;fish&lt;/rs:tag&gt;
 <span class="rs">       &lt;rs:key&gt;./resources/res2.txt&lt;/rs:key&gt;</span>
     &lt;/url&gt;
     &lt;url&gt;
        &lt;loc&gt;http://www.example.com/res3&lt;/loc&gt;
        &lt;lastmod&gt;2007-03-23T18:00:15+00:00&lt;/lastmod&gt;
+       &lt;size&gt;769234&lt;/rs:size&gt;
+       &lt;md5&gt;bralerbaagbearlerab2e32&lt;/rs:md5&gt;
        &lt;rs:tag&gt;humans&lt;/rs:tag&gt;
 <span class="rs">       &lt;rs:key&gt;./resources/res3.txt&lt;/rs:key&gt;</span>
     &lt;/url&gt;
@@ -913,7 +919,7 @@ Host: aggregator.org
 
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-        xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
+        xmlns:rs=&quot;http://resourcesync.org/ns/&quot;
         xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
     &lt;url&gt; 
         &lt;loc&gt;http://dbpedia.org/resource/Paris&lt;/loc&gt; 
@@ -930,7 +936,7 @@ Host: aggregator.org
 
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
-        xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
+        xmlns:rs=&quot;http://resourcesync.org/ns/&quot;
         xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
     &lt;url&gt; 
         &lt;loc&gt;http://dbpedia.org/resource/Paris&lt;/loc&gt; 
@@ -948,8 +954,8 @@ Host: aggregator.org
         <h3>Resource Transfer Override in Changeset</h3>
         
 <pre>
-&lt;changeset xmlns=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
-        xmlns:rs=&quot;http://resourcesync.org/schemas/resync/0.9&quot;
+&lt;changeset xmlns=&quot;http://resourcesync.org/ns/&quot;
+        xmlns:rs=&quot;http://resourcesync.org/ns/&quot;
         xmlns:sm=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;&gt;
     &lt;sm:url&gt;
         &lt;sm:loc&gt;http://my.oairepo.org/oai&lt;/sm:loc&gt; 
