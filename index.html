@@ -236,7 +236,7 @@
                     </td>
                     <td>
                         <p>
-                            The size in bytes of the resource.
+                            The size in bytes of the resource. <span class="todo">Q - Herbert - should this be dc:extent instead?</span>
                         </p>
                     </td>
                 </tr>
@@ -249,7 +249,7 @@
                     </td>
                     <td>
                         <p>
-                            The MD5 checksum for the resource expressed in hex, e.g. <code>4415d4a1df0e4bee731db465b04da138</code>.
+                            The MD5 checksum for the resource expressed in hex, e.g. <code>4415d4a1df0e4bee731db465b04da138</code>. <span class="todo">Q - Herbert - What about other hashes? Maybe we need a more generic element, e.g. &lt;rs:hash&gt; with as value a content-based hash expressed as a URI, cf the <a href="http://tools.ietf.org/html/draft-farrell-decade-ni-07">NI URI scheme</a>.</span>
                         </p>
                     </td>
                 </tr>
@@ -542,7 +542,7 @@
 </pre>
 
 <p class="todo">
-   Open Issue: Should we conflate tags into a single rs:tags element?  Simeon - I think that separate elements is best (with attributes one has to do it though).
+   Open Issue: Should we conflate tags into a single rs:tags element?  Simeon - I think that using separate elements is best (with attributes one has to do it though).
 </p>
 
             <h3><a name="change_comm_discovery_pull" id="change_comm_discovery_pull"></a>3.2 Pull-based Change Communication Discovery
