@@ -40,9 +40,9 @@
             <br />
             
             <!-- DEFINITIONS -->
-            <h2>
-                <a name="definitions" id="definitions"></a>1. Definitions
+            <h2><a name="definitions" id="definitions"></a>1. Definitions
             </h2>
+
             <ul>
             <li><strong>Resource</strong>: an object to be synchronized, a web resource <span class="todo"> identified by a de-referencable URI?</span></li>
 
@@ -101,9 +101,9 @@
             </ul>
             
             <!-- INVENTORY -->
-            <h2>
-                <a name="baseline_sync" id="baseline_sync"></a>2. Baseline Synchronization
+            <h2><a name="baseline_sync" id="baseline_sync"></a>2. Baseline Synchronization
             </h2>
+
             <p>To allow a Destination to perform an initial synchronization with a Source, it needs to retrieve the list of Resources available in a Source, its <strong>Inventory</strong>.</p>
                 
             <p>A Source generates an <a href="http://www.sitemaps.org/" title="sitemaps.org - Home">XML Sitemap</a> to describe its Inventory. All data values in a Sitemap must be <a href="http://www.sitemaps.org/protocol.html#escaping">entity-escaped</a>. The Sitemap serialization must be UTF-8 encoded.</p>
@@ -124,8 +124,7 @@
                 Elements introduced for ResourceSync are in the <code class="rs">http://resourcesync.org/ns/</code> namespace. The <code class="rs">rs</code> prefix is used in this document to indicate that XML tags are defined in that namespace.
             </p>
 
-            <h3>
-                2.1 Sample XML Sitemap Inventory
+            <h3><a name="sample_xml_sitemap" id="sample_xml_sitemap"></a>2.1 Sample XML Sitemap Inventory
             </h3>
             <p>
                 The following example shows a Sitemap inventory using just the minimum required tags for resource synchronization.
@@ -158,8 +157,7 @@
 &lt;/urlset&gt; 
 </pre>
 
-            <h3>
-                <a name="xmlTagDefinitions" id="xmlTagDefinitions"></a>2.2 XML tag definitions
+            <h3><a name="xmlTagDefinitions" id="xmlTagDefinitions"></a>2.2 XML tag definitions
             </h3>
             <p>
                 The available XML tags are described below.
@@ -326,8 +324,8 @@
                     </td>
                 </tr>
             </table>
-            <h3>
-                <a name="sitemapXMLExample" id="sitemapXMLExample"></a>2.3 Sample XML Sitemap
+
+            <h3><a name="sitemapXMLExample" id="sitemapXMLExample"></a>2.3 Sample XML Sitemap
             </h3>
             <p>
                 The following example shows a Sitemap in XML format. The Sitemap in the example contains a small number of URLs.
@@ -354,8 +352,8 @@
    &lt;/url&gt;
 &lt;/urlset&gt;
 </pre>
-            <h3>
-                <a name="sitemap_index_inventory" id="sitemap_index_inventory"></a>2.4 Sitemap Index Inventory (to group multiple Sitemap files)
+
+            <h3><a name="sitemap_index_inventory" id="sitemap_index_inventory"></a>2.4 Sitemap Index Inventory (to group multiple Sitemap files)
             </h3>
             <p>
                 You can provide multiple Sitemap files, but each Sitemap file that you provide must have no more than 50,000 URLs and must be no larger than 10MB (10,485,760 bytes). If you would like, you may compress your Sitemap files using gzip to reduce your bandwidth requirement; however the Sitemap file once uncompressed must be no larger than 10MB. If you want to list more than 50,000 URLs, you must create multiple Sitemap files.
@@ -385,8 +383,7 @@
                 <strong>Note:</strong> A Sitemap index file can only specify Sitemaps that are found on the same site as the Sitemap index file. For example, http://www.yoursite.com/sitemap_index.xml can include Sitemaps on http://www.yoursite.com but not on http://www.example.com or http://yourhost.yoursite.com. As with Sitemaps, your Sitemap index file must be UTF-8 encoded.
             </p>
             
-            <h3>
-                <a name="sitemapIndexXMLExample" id="sitemapIndexXMLExample"></a>2.5 Sample XML Sitemap Index
+            <h3><a name="sitemapIndexXMLExample" id="sitemapIndexXMLExample"></a>2.5 Sample XML Sitemap Index
             </h3>
             <p>
                 The following example shows a Sitemap index that lists two Sitemaps:
@@ -412,8 +409,8 @@
             <p>
                 <strong>Note:</strong> Sitemap URLs, like all values in your XML files, must be <a href="#escaping">entity escaped</a>.
             </p>
-            <h3>
-                <a name="sitemapIndexTagDefinitions" id="sitemapIndexTagDefinitions"></a>2.6 Sitemap Index XML Tag Definitions
+
+            <h3><a name="sitemapIndexTagDefinitions" id="sitemapIndexTagDefinitions"></a>2.6 Sitemap Index XML Tag Definitions
             </h3>
             <table width="80%">
                 <tr>
@@ -504,15 +501,13 @@
             
             
             <!-- INVENTORY - COMPONENT DISCOVERY -->
-            <h2>
-                <a name="source_capability" id="source_capability"></a>3. Source Capabilities Description
+            <h2><a name="source_capability" id="source_capability"></a>3. Source Capabilities Description
             </h2>
             
             <p>ResourceSync proposes a <strong>modular</strong> synchronization framework, consisting of several components. The availability of these components depends on a Source's capabilities. A Source can describe its capabilities by providing links to available synchronization components. <span class="todo">TODO: more details on this!</span></p>
             
             
-            <h3>
-                <a name="dump_discovery" id="dump_discovery"></a>3.1 Dump Discovery
+            <h3><a name="dump_discovery" id="dump_discovery"></a>3.1 Dump Discovery
             </h3>
             
             <p>A source may periodically produce Dumps, which are packages of Resources and associated Metadata. It gives a Destination the opportunity to obtain the resource content without having to pull all resources separately via HTTP GET requests. A Source can indicate the availability of Dumps by providing links to downloadable dump files in its Sitemap inventory.</p>
@@ -550,8 +545,7 @@
    Open Issue: Should we conflate tags into a single rs:tags element?  Simeon - I think that separate elements is best (with attributes one has to do it though).
 </p>
 
-            <h3>
-                <a name="change_comm_discovery_pull" id="change_comm_discovery_pull"></a>3.2 Pull-based Change Communication Discovery
+            <h3><a name="change_comm_discovery_pull" id="change_comm_discovery_pull"></a>3.2 Pull-based Change Communication Discovery
             </h3>
 
             <p>Pull-based Incremental Synchronization relies on changes being polled by the Destination. Therefore, a Source may provide links to relevant ChangeSets in a Change Memory, which may be hosted by the Source itself or an external Change Memory service. A ChangeSet is identified by a de-referencable URI and contains an entry for each change event that occurred on a Source's resources <strong>after</strong> the creation of the inventory, i.e, the Sitemap serialization.</p>
@@ -590,8 +584,7 @@
 &lt;/urlset&gt;
 </pre>
 
-            <h3>
-                <a name="change_comm_discovery_push" id="change_comm_discovery_push"></a>3.3 Push-based Change Communication Discovery
+            <h3><a name="change_comm_discovery_push" id="change_comm_discovery_push"></a>3.3 Push-based Change Communication Discovery
             </h3>
 
             <p>Push-based Incremental Synchronization relies on changes being pushed from the Source to the Destination, likely via an intermediary notification service. Therefore, a Source may provide links to (an) intermediary notification service(s) a Destination can subscribe to.</p>
@@ -631,8 +624,7 @@
 &lt;/urlset&gt;
 </pre>            
 
-            <h3>
-                <a name="resource_memory_discovery_memento" id="resource_memory_discovery_memento"></a>3.4 Resource Memory Discovery (via Memento)
+            <h3><a name="resource_memory_discovery_memento" id="resource_memory_discovery_memento"></a>3.4 Resource Memory Discovery (via Memento)
             </h3>
             
             <p>A Source can indicate the availability of archived or past resource states by providing links to Memento TimeGates <span class="todo">TODO: link!</span>.</p>
@@ -665,8 +657,7 @@
 &lt;/urlset&gt;
 </pre>
             
-            <h3>
-                <a name="resource_memory_discovery_versioning" id="resource_memory_discovery_versioning"></a>3.5 Resource Memory Discovery (via Resource version URIs)
+            <h3><a name="resource_memory_discovery_versioning" id="resource_memory_discovery_versioning"></a>3.5 Resource Memory Discovery (via Resource version URIs)
             </h3>
             
             <p>A Source can indicate the availability of archived or past resource states by providing Resource version URIs (e.g., as in Wikipedia).</p>
@@ -701,13 +692,12 @@
 </p>
 
         <!-- CHANGE COMMUNICATION -->
-        <h2>
-            <a name="change_communication" id="change_communication"></a>4. Change Communication
+        <h2><a name="change_communication" id="change_communication"></a>4. Change Communication
         </h2>
 
         <p>Change Communication allows a Destination to understand that a Resource has changed in the Source; and what the nature of that change event is. Change events can either be polled from a Change Memory by a Destination or pushed from a Source to a Destination via some intermediary notification mechanism.</p>
             
-        <h3>4.1 Pull-based Change Communication</h3>
+        <h3><a name="pull_based_change_comm" id="pull_based_change_comm"></a>4.1 Pull-based Change Communication</h3>
         
         <p>A ChangeMemory records change events and allows Destinations to poll for change events. As a response, the Destination receives a ChangeSet, which can contain a (possibly empty) set of change events. Each event has an event identifier, which allows a Destination to identify already known change events.</p>
         
@@ -779,7 +769,7 @@
         
         <p><span class="todo">Should ChangeSets allow component discovery or should only the Inventory contain discovery links?</span></p>
         
-        <h3>4.2 Push-based Change Communication (via XMPP)</h3>
+        <h3><a name="push_based_change_comm" id="push_based_change_comm"></a>4.2 Push-based Change Communication (via XMPP)</h3>
         
         <p>The Source pushes change events via some intermediary (e.g., XMPP) mechanism to the Destination. The intermediary usually packages change events into some kind of message "envelope".</p>
         
@@ -821,7 +811,7 @@
 &lt;/message&gt;
 </pre>        
 
-        <h3>4.3 Push-based Change Communication (via simple HTTP Callback)</h3>
+        <h3><a name="push_http_callback" id="push_http_callback"></a>4.3 Push-based Change Communication (via simple HTTP Callback)</h3>
 
         <p>A Source (or its ChangeMemory) can provide a subscription interface, which allows Destinations to register their HTTP Callback URIs. The Source can push ChangeSets to the Destination on a per-event basis or in pre-defined intervals. This functionality can also be outsourced to some intermediary ChangeMemory. The Source would then ping the ChangeMemory whenever change events occur.</p>
         
@@ -868,8 +858,7 @@ Host: aggregator.org
         
         
         <!-- DUMP PACKAGING -->
-        <h2>
-            <a name="dump_packaging" id="dump_packaging"></a>5. Dump Packaging
+        <h2><a name="dump_packaging" id="dump_packaging"></a>5. Dump Packaging
         </h2>
         
         <p>A Dump packages Resources and associated Metadata of a Source and provides an Sitemap as Dump index file (Manifest). The Manifest (manifest.xml) follows the Inventory's structure but provides an additional pointer (rs:key) to the relative location of the serialized resource within a Dump package (archive).</p>
@@ -913,13 +902,12 @@ Host: aggregator.org
     <a href="#top">Back to top</a>
 </p>
         <!-- Resource Transfer -->
-        <h2>
-            <a name="resource_transfer_override" id="resource_transfer_override"></a>6. Resource Transfer Override
+        <h2><a name="resource_transfer_override" id="resource_transfer_override"></a>6. Resource Transfer Override
         </h2>
 
         <p>HTTP GET is the default Resource Transfer mechanism used by the Destination to update its holdings to reflect a change in a Resource at the Source. This behavior can be overridden by specifying alternate access URIs or alternate protocols and endpoints.</p>
         
-        <h3>6.1 Resource Transfer Override in Sitemap Inventory</h3>
+        <h3><a name="transfer_override_sitemap" id="transfer_override_sitemap"></a>6.1 Resource Transfer Override in Sitemap Inventory</h3>
 
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
@@ -936,7 +924,7 @@ Host: aggregator.org
 &lt;urlset&gt;
 </pre>        
         
-        <h3>6.2 Resource Transfer Override in Dump</h3>
+        <h3><a name="transfer_override_dump" id="transfer_override_dump"></a>6.2 Resource Transfer Override in Dump</h3>
 
 <pre>
 &lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;
@@ -954,8 +942,7 @@ Host: aggregator.org
 &lt;urlset&gt;
 </pre>        
 
-        
-        <h3>6.3 Resource Transfer Override in Changeset</h3>
+        <h3><a name="transfer_override_changeset" id="transfer_override_changeset"></a>6.3 Resource Transfer Override in Changeset</h3>
 
 <span class="todo"><br />Q - Simeon - The OAI example seems a bit fuzzy in that the endpoint and protocol elements are just next to each other and hence rather loosely tied. Would it be better to simply define an oai-endpoint and omit the rel=protocol part?</span>
         
